@@ -1,0 +1,8 @@
+{
+	"$schema": "https://openapi.vercel.sh/vercel.json",
+	"version": 2,
+	"alias": "aghea.site",
+	"cleanUrls": true,
+	"public": true,
+	"regions": ["sin1"]
+}
