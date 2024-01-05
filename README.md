@@ -56,7 +56,7 @@ cd app && yarn dev
 
 ### Domain Setup
 - Make sure your domain is already connected with [Vercel Nameservers](https://vercel.com/docs/projects/domains/working-with-nameservers), then change the [vercel.json](/vercel.json).
-- Also take a look to [next-sitemap.js](/next-sitemap.js).
+- Also take a look to [next-sitemap.config.js](/next-sitemap.config.js).
 
 ---
 
