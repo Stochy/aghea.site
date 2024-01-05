@@ -3,6 +3,7 @@ import { Icon } from '@iconify/react';
 import Image from "next/future/image";
 import { useEffect, useState } from "preact/hooks";
 import useSWR from "swr";
+import Link from "next/link";
 
 import type {
 	NowPlayingResponseError,
@@ -51,7 +52,8 @@ export default function Spotify() {
 	return (
 		<div className="flex gap-2 items-center text-base leading-snug">
 			<div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
-				<Image
+  			<Link href="/spotify">
+  				<Image
 					src={
 						data?.track?.album.images[0]?.url ??
 						"/images/emptysong.jpg"
@@ -61,7 +63,8 @@ export default function Spotify() {
 					height={256}
 					priority={true}
 					className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
-				/>
+				  />
+				</Link>
 			</div>
 			<div className="basis-full">
 				<p>

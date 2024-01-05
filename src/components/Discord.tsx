@@ -49,7 +49,8 @@ export default function Discord() {
 		<div className="mb-4 flex gap-2 items-center text-base leading-snug">
 			{lanyard?.discord_user.avatar ? (
 				<div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
-					<Image
+					<Link href="/discord">
+					  <Image
 						src={`https://cdn.discordapp.com/avatars/${USER_ID}/${
 							lanyard?.discord_user.avatar
 						}.${
@@ -62,7 +63,8 @@ export default function Discord() {
 						height={256}
 						priority={true}
 						className="rounded-full"
-					/>
+					  />
+					</Link>
 					<div
 						className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
 							lanyard?.discord_status
