@@ -30,3 +30,6 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 .vercel
+/public/robots.txt
+/public/sitemap-0.xml
+/public/sitemap.xml
