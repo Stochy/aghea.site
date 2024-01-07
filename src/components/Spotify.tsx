@@ -1,4 +1,3 @@
-import { PauseIcon, PlayIcon } from "@heroicons/react/solid";
 import { Icon } from '@iconify/react';
 import Image from "next/future/image";
 import { useEffect, useState } from "preact/hooks";
@@ -134,9 +133,9 @@ export default function Spotify() {
 								</span>
 								<span>
 									{data?.isPaused ? (
-										<PlayIcon className="text-white h-4 w-4" />
+										<Icon className="text-white h-4 w-4" icon="line-md:pause-to-play-transition" />
 									) : (
-										<PauseIcon className="text-white h-4 w-4" />
+										<Icon className="text-white h-4 w-4" icon="line-md:play-to-pause-transition" />
 									)}
 								</span>
 								<span className="basis-full text-right">
