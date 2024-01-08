@@ -79,6 +79,16 @@ const config = {
         destination: 'https://bit.ly/4atYAGx',
         permanent: true,
       },
+      {
+        source: '/termux',
+        destination: 'https://bit.ly/3vuDUhG',
+        permanent: true,
+      },
+      {
+        source: '/termuxdl',
+        destination: 'https://bit.ly/4aGdHN4',
+        permanent: true,
+      },
     ];
   },
 };
