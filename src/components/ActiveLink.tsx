@@ -1,34 +1,32 @@
 import Link, { LinkProps } from "next/link";
 import { useRouter } from "next/router";
-import { cloneElement } from "preact";
+import { cloneElement, ReactNode } from "react";
 
 export interface ActiveLinkProps extends LinkProps {
-	children: React.ReactElement;
-	activeClass: string;
-	nonActiveClass?: string;
+  children: ReactNode;
+  activeClass: string;
+  nonActiveClass?: string;
 }
 
 export default function ActiveLink({
-	children,
-	href,
-	activeClass,
-	nonActiveClass = "",
-	...props
+  children,
+  href,
+  activeClass,
+  nonActiveClass = "",
+  ...props
 }: ActiveLinkProps) {
-	const router = useRouter();
+  const router = useRouter();
 
-	return (
-		<Link href={href} {...props}>
-			{cloneElement(children, {
-				className:
-					router.pathname === href
-						? children.props.className
-							? `${children.props.className} ${activeClass}`
-							: activeClass
-						: children.props.className
-						? `${children.props.className} ${nonActiveClass}`
-						: nonActiveClass
-			})}
-		</Link>
-	);
+  const childClassName = (children as React.ReactElement)?.props?.className || '';
+
+  const combinedClassName =
+    router.pathname === href
+      ? `${childClassName} ${activeClass}`
+      : `${childClassName} ${nonActiveClass}`;
+
+  return (
+    <Link href={href} {...props}>
+      {cloneElement(children as React.ReactElement, { className: combinedClassName })}
+    </Link>
+  );
 }
