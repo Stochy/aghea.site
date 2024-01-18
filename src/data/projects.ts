@@ -66,6 +66,35 @@ export const projects: ProjectInfo[] = [
 		]
 	},
 	{
+		name: "AD-GPT",
+		description:
+			"Sebuah AI Assistant Discord Bot yang sudah mendukung GPT-3.5 dan GPT-4.",
+		image: "/images/projects/Logo_Geng_West.png",
+		url: "https://github.com/agcrisbp/AD-GPT",
+		stack: [
+			{
+				name: "JavaScript",
+				icon: "javascript"
+			},
+			{
+				name: "Python",
+				icon: "python"
+			},
+			{
+				name: "Docker",
+				icon: "docker"
+			},
+			{
+				name: "DiscordJS",
+				icon: "discord"
+			},
+			{
+				name: "Discord Bot",
+				icon: "discordbots"
+			},
+		]
+  	},
+	{
 		name: "ADResume",
 		description:
 			"Templat Resume/Portfolio menggunakan Vue (Nuxt 3).",
@@ -227,30 +256,4 @@ export const projects: ProjectInfo[] = [
 				src: "/images/projects/spo.png"
 			},
 		]
-  },
-	{
-		name: "WEST GPT",
-		description:
-			"Sebuah AI Assistant Discord Bot yang sudah mendukung GPT-3.5 dan GPT-4.",
-		image: "/images/projects/Logo_Geng_West.png",
-		url: "https://gpt.aghea.site",
-		stack: [
-			{
-				name: "JavaScript",
-				icon: "javascript"
-			},
-			{
-				name: "Docker",
-				icon: "docker"
-			},
-			{
-				name: "DiscordJS",
-				icon: "discord"
-			},
-			{
-				name: "Discord Bot",
-				icon: "discordbots"
-			},
-		]
-  }
 ];
