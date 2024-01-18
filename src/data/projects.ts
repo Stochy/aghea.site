@@ -256,4 +256,5 @@ export const projects: ProjectInfo[] = [
 				src: "/images/projects/spo.png"
 			},
 		]
+	}
 ];
