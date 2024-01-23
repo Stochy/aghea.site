@@ -66,16 +66,33 @@ export const projects: ProjectInfo[] = [
 		]
 	},
 	{
-		name: "AD-GPT",
+		name: "AD-GPT3",
 		description:
-			"Sebuah AI Assistant Discord Bot yang sudah mendukung GPT-3.5 dan GPT-4.",
+			"Sebuah AI Assistant Discord Bot yang mendukung GPT-3.5.",
 		image: "/images/projects/Logo_Geng_West.png",
-		url: "https://github.com/agcrisbp/AD-GPT",
+		url: "https://github.com/agcrisbp/AD-GPT3",
 		stack: [
 			{
 				name: "JavaScript",
 				icon: "javascript"
 			},
+			{
+				name: "DiscordJS",
+				icon: "discord"
+			},
+			{
+				name: "Discord Bot",
+				icon: "discordbots"
+			},
+		]
+  },
+	{
+		name: "AD-GPT3",
+		description:
+			"Sebuah AI Assistant Discord Bot yang mendukung GPT-4.",
+		image: "/images/projects/Logo_Geng_West.png",
+		url: "https://github.com/agcrisbp/AD-GPT4",
+		stack: [
 			{
 				name: "Python",
 				icon: "python"
@@ -93,7 +110,7 @@ export const projects: ProjectInfo[] = [
 				icon: "discordbots"
 			},
 		]
-  	},
+  },
 	{
 		name: "ADResume",
 		description:
