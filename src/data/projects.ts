@@ -87,7 +87,7 @@ export const projects: ProjectInfo[] = [
 		]
   },
 	{
-		name: "AD-GPT3",
+		name: "AD-GPT4",
 		description:
 			"Sebuah AI Assistant Discord Bot yang mendukung GPT-4.",
 		image: "/images/projects/Logo_Geng_West.png",
