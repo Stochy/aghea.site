@@ -66,32 +66,11 @@ export const projects: ProjectInfo[] = [
 		]
 	},
 	{
-		name: "AD-GPT3",
+		name: "AD-VM",
 		description:
-			"Sebuah AI Assistant Discord Bot yang mendukung GPT-3.5.",
+			"Membuat temporary voice channel yang mendukung OpenAI GPT-3.5 dan Bing Copilot GPT-4 Edge-GPT.",
 		image: "/images/projects/Logo_Geng_West.png",
-		url: "https://github.com/agcrisbp/AD-GPT3",
-		stack: [
-			{
-				name: "JavaScript",
-				icon: "javascript"
-			},
-			{
-				name: "DiscordJS",
-				icon: "discord"
-			},
-			{
-				name: "Discord Bot",
-				icon: "discordbots"
-			},
-		]
-  },
-	{
-		name: "AD-GPT4",
-		description:
-			"Sebuah AI Assistant Discord Bot yang mendukung GPT-4.",
-		image: "/images/projects/Logo_Geng_West.png",
-		url: "https://github.com/agcrisbp/AD-GPT4",
+		url: "https://discord.com/oauth2/authorize?client_id=1209547946220060682&permissions=8&scope=bot+applications.commands",
 		stack: [
 			{
 				name: "Python",
