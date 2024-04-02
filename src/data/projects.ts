@@ -66,11 +66,11 @@ export const projects: ProjectInfo[] = [
 		]
 	},
 	{
-		name: "AD-VM",
+		name: "Voicecord",
 		description:
 			"Membuat temporary voice channel yang mendukung OpenAI GPT-3.5 dan Bing Copilot GPT-4 Edge-GPT.",
-		image: "/images/projects/Logo_Geng_West.png",
-		url: "https://discord.com/oauth2/authorize?client_id=1209547946220060682&permissions=8&scope=bot+applications.commands",
+		image: "/images/projects/seeingred.jpg",
+		url: "https://discord.com/oauth2/authorize?client_id=1200362228440895528&permissions=8&scope=bot+applications.commands",
 		stack: [
 			{
 				name: "Python",
