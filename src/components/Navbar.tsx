@@ -30,7 +30,7 @@ const pages: PageData[] = [
 		color: "text-blue-400"
 	},
 	{
-		href: "https://blog.aghea.site",
+		href: "https://blog.aghea.biz.id/",
 		title: "Tulisan",
 		Icon: SparklesIcon,
 		color: "text-purple-400"
