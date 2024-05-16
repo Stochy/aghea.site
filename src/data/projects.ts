@@ -224,7 +224,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"Lagu aransemen yang dibuat hanya untuk mengetes peralatan musik. Artis orisinal: Bring Me The Horizon.",
 		image: "/images/projects/ine.jpg",
-		url: "https://ite.aghea.site",
+		url: "https://ine.aghea.biz.id/",
 		stack: [
 			{
 				name: "Apple Music",
@@ -241,7 +241,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"Album ini merupakan kompilasi lagu-lagu Bon-Bon Soultaker dari Album 'Deathless Guitar' (2012), 'Scents of Death' (2012), 'Doubt' (2013), and 'Tuhan, Manusia, Malaikat, & Iblis' (2013).",
 		image: "/images/projects/soultaker.jpg",
-		url: "https://soultaker.aghea.site",
+		url: "https://soultaker.aghea.biz.id/",
 		stack: [
 			{
 				name: "Apple Music",
