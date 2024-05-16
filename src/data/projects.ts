@@ -66,9 +66,9 @@ export const projects: ProjectInfo[] = [
 		]
 	},
 	{
-		name: "Voicecord",
+		name: "CHARIS",
 		description:
-			"Bot Discord yang dapat membuat temporary voice channel dan mendukung beberapa fitur tambahan seperti Reaction Role, OpenAI GPT-3.5, Radio, YouTube Music, dan masih banyak lagi.",
+			"Bot Discord serbaguna Berbahasa Indonesia. Sang dewi pesona, keindahan, alam, kreativitas manusia, dan kesuburan.",
 		image: "/images/projects/seeingred.jpg",
 		url: "https://discord.com/oauth2/authorize?client_id=1200362228440895528&permissions=8&scope=bot+applications.commands",
 		stack: [
