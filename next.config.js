@@ -46,7 +46,7 @@ const config = {
       },
       {
         source: '/email',
-        destination: 'https://email.aghea.site',
+        destination: 'https://email.aghea.biz.id/',
         permanent: true,
       },
       {
