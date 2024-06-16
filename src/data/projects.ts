@@ -69,8 +69,8 @@ export const projects: ProjectInfo[] = [
 		name: "CHARIS",
 		description:
 			"Bot Discord serbaguna Berbahasa Indonesia. Sang dewi pesona, keindahan, alam, kreativitas manusia, dan kesuburan.",
-		image: "/images/projects/seeingred.jpg",
-		url: "https://discord.com/oauth2/authorize?client_id=1200362228440895528&permissions=8&scope=bot+applications.commands",
+		image: "/images/projects/CHARIS_black.jpeg",
+		url: "https://top.gg/bot/1200362228440895528",
 		stack: [
 			{
 				name: "Python",
