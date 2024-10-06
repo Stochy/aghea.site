@@ -24,7 +24,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"ADLink adalah templat link website satu halaman yang dapat disesuaikan.",
 		image: "/images/projects/preview.jpg",
-		url: "https://bit.ly/ADLink-Docs",
+		url: "https://ad-link-docs.vercel.app/",
 		stack: [
 			{
 				name: "NextJS",
@@ -224,7 +224,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"Lagu aransemen yang dibuat hanya untuk mengetes peralatan musik. Artis orisinal: Bring Me The Horizon.",
 		image: "/images/projects/ine.jpg",
-		url: "https://ine.aghea.biz.id/",
+		url: "https://it-never-ends.vercel.app/",
 		stack: [
 			{
 				name: "Apple Music",
@@ -241,7 +241,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"Album ini merupakan kompilasi lagu-lagu Bon-Bon Soultaker dari Album 'Deathless Guitar' (2012), 'Scents of Death' (2012), 'Doubt' (2013), and 'Tuhan, Manusia, Malaikat, & Iblis' (2013).",
 		image: "/images/projects/soultaker.jpg",
-		url: "https://soultaker.aghea.biz.id/",
+		url: "https://soultaker.vercel.app/",
 		stack: [
 			{
 				name: "Apple Music",

@@ -11,8 +11,8 @@ const http = require("http");
 // Menambahkan fungsi untuk melakukan redirect
 function redirectHandler(req, res) {
   res.statusCode = 301;
-  res.setHeader("/twitter", "https://twitter.com/crisminolog");
-  res.setHeader("/bsky", "http://bsky.aghea.biz.id/");
+  res.setHeader("/twitter", "https://twitter.com/agcrisbp");
+  res.setHeader("/bsky", "http://aghea.vercel.app/bsky");
   res.end();
 }
 
@@ -46,7 +46,7 @@ const config = {
       },
       {
         source: '/email',
-        destination: 'https://email.aghea.biz.id/',
+        destination: 'https://aghea.vercel.app/email',
         permanent: true,
       },
       {
