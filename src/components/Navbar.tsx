@@ -30,7 +30,7 @@ const pages: PageData[] = [
 		color: "text-blue-400"
 	},
 	{
-		href: "https://blog.aghea.biz.id/",
+		href: "https://blog-aghea.vercel.app/",
 		title: "Tulisan",
 		Icon: SparklesIcon,
 		color: "text-purple-400"
