@@ -56,7 +56,7 @@ const config = {
       },
       {
         source: '/mxm',
-        destination: 'https://bit.ly/3RA3zwF',
+        destination: 'https://bit.ly/AgheaMXM',
         permanent: true,
       },
       {
