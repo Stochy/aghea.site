@@ -35,7 +35,7 @@ export default function Home({
 			</h1>
 
 			<p className="mb-4">
-				<span className="opacity-80">Nama saya adalah Agcrismanto Budhi Praswastyka, dikenal sebagai Cris ataupun Aghea, berasal dari Indonesia. Saya adalah seorang {" "}
+				<span className="opacity-80">Nama saya adalah Agcrismanto Budhi Praswastyka, dikenal sebagai Cris ataupun Aghea, berasal dari Yogyakarta, Indonesia. Saya adalah seorang {" "}
 				 Pegiat Hukum, Freelance Developer dan Cybersecurity di salah satu perusahaan swasta asal Denmark. Saya juga mengisi waktu kosong sebagai seorang Kurator di <span className="text-blue-400 opacity-95"><Link href="/mxm"><a target="_blank" rel="noopener noreferrer" className="border-b border-[#fff4] hover:border-white transition">Musixmatch</a></Link></span></span>.{" "}
 			</p>
 
