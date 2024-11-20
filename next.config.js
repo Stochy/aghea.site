@@ -61,7 +61,7 @@ const config = {
       },
       {
         source: '/twitter',
-        destination: 'https://bit.ly/3TtYbxM',
+        destination: 'https://bit.ly/AgheaTwitter',
         permanent: true,
       },
       {

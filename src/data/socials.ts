@@ -18,6 +18,11 @@ export const socials: SocialInfo[] = [
         url: "/linkedin"
     },
     {
+        name: "Twitter",
+        icon: "simple-icons:twitter",
+        url: "/twitter"
+    },
+    {
         name: "Bluesky App",
         icon: "simple-icons:bluesky",
         url: "/bsky"
