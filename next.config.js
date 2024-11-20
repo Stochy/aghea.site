@@ -46,7 +46,7 @@ const config = {
       },
       {
         source: '/email',
-        destination: 'https://aghea.vercel.app/email',
+        destination: 'mailto:agcrisbp@proton.me',
         permanent: true,
       },
       {
