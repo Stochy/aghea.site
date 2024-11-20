@@ -36,12 +36,12 @@ const config = {
     return [
       {
         source: '/bsky',
-        destination: 'https://bit.ly/3wxXBWC',
+        destination: 'https://bit.ly/AgheaBsky',
         permanent: true,
       },
       {
         source: '/contact',
-        destination: 'https://simplex.chat/contact#/?v=1-4&smp=smp%3A%2F%2F0YuTwO05YJWS8rkjn9eLJDjQhFKvIYd8d4xG8X1blIU%3D%40smp8.simplex.im%2FU5OFRjMLTNrAnK0_M1Q2ZXl01Q1eF75G%23%2F%3Fv%3D1-2%26dh%3DMCowBQYDK2VuAyEAik_8l_Xf3pvXnc6AHjcovHVDAiF5o2ptu8MvnelwSBk%253D%26srv%3Dbeccx4yfxxbvyhqypaavemqurytl6hozr47wfc7uuecacjqdvwpw2xid.onion',
+        destination: 'https://bit.ly/AgheaSignal',
         permanent: true,
       },
       {

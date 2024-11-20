@@ -24,7 +24,7 @@ export const socials: SocialInfo[] = [
     },
     {
         name: "Chat Me",
-        icon: "simple-icons:livechat",
+        icon: "simple-icons:signal",
         url: "/contact"
     },
     {
