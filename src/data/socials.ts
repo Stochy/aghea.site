@@ -22,11 +22,11 @@ export const socials: SocialInfo[] = [
         icon: "simple-icons:twitter",
         url: "/twitter"
     },
-    {
-        name: "Bluesky App",
-        icon: "simple-icons:bluesky",
-        url: "/bsky"
-    },
+//    {
+//        name: "Bluesky App",
+//        icon: "simple-icons:bluesky",
+//        url: "/bsky"
+//    },
     {
         name: "Chat Me",
         icon: "simple-icons:signal",
