@@ -17,11 +17,11 @@ export const socials: SocialInfo[] = [
         icon: "simple-icons:linkedin",
         url: "/linkedin"
     },
-    {
-        name: "Twitter",
-        icon: "simple-icons:twitter",
-        url: "/twitter"
-    },
+//    {
+//        name: "Twitter",
+//        icon: "simple-icons:twitter",
+//        url: "/twitter"
+//    },
 //    {
 //        name: "Bluesky App",
 //        icon: "simple-icons:bluesky",
