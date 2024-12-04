@@ -19,6 +19,8 @@ const formatDuration = (ms: number) => {
 
 // Extract external URL for thumbnail image
 const getThumbnailUrl = (imagePath: string) => {
+  if (!imagePath) return "/images/emptysong.jpg"; // Return the fallback if imagePath is falsy (null or undefined)
+
   const imageUrl = imagePath.split("mp:external/")[1]; // Extract the URL after "mp:external/"
   return `https://media.discordapp.net/external/${imageUrl}`;
 };
@@ -76,7 +78,7 @@ export default function YouTubeMusicActivity() {
                     <div className="flex items-center gap-3">
                       {activity.assets?.large_image && (
                         <Image
-                          src={getThumbnailUrl(activity.assets.large_image) ?? "/images/emptysong.jpg"} // External URL for thumbnail or fallback
+                          src={getThumbnailUrl(activity.assets.large_image)} // External URL for thumbnail or fallback
                           alt="Song Thumbnail"
                           className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
                           width={256}
@@ -97,13 +99,19 @@ export default function YouTubeMusicActivity() {
                             </span>
                           </span>
                         </p>
-                        {activity.type === 2 && (
-                          <div className="mt-1">
-                            {activity.details && (
-                              <p className="opacity-60">
-                                <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">{activity.details}</a> oleh <a className="font-bold border-b border-[#fff4] transition hover:border-white">{activity.state}</a>
-                              </p>
+                        {activity.details && (
+                          <p className="opacity-80">
+                            <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">
+                              {activity.details}
+                            </a>
+                            {!activity.details.includes("oleh") && !activity.details.includes("by") && (
+                              <> oleh </>
                             )}
+                            <a className="font-bold border-b border-[#fff4] transition hover:border-white">
+                              {activity.state}
+                            </a>
+                          </p>
+                        )}
                           </div>
                         )}
                         {duration > 0 && (
