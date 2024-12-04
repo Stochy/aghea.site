@@ -50,7 +50,7 @@ export default function YouTubeMusicActivity() {
     const interval = setInterval(() => {
       if (lanyard) {
         const youtubeMusicActivities = lanyard?.activities.filter(
-          (activity) => activity.name?.includes("YouTube Music")
+          (activity) => activity.name?.includes("YouTube")
         );
 
         if (youtubeMusicActivities?.length > 0) {
