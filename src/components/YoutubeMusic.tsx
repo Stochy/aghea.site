@@ -55,13 +55,19 @@ export default function YouTubeMusicActivity() {
 
         if (youtubeMusicActivities?.length > 0) {
           const activity = youtubeMusicActivities[0];
-          const startTimestamp = activity.timestamps?.start || activity.created_at;
+          const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
-          const duration = endTimestamp ? endTimestamp - startTimestamp : Date.now() - startTimestamp;
-          const currentElapsedTime = getElapsedTime(startTimestamp, duration);
 
-          setElapsedTime(currentElapsedTime);
-          setIsPlaying(endTimestamp ? currentElapsedTime < duration : true); // Determine if the song is still playing
+          // If there are no timestamps, treat it as paused
+          if (startTimestamp && endTimestamp) {
+            const duration = endTimestamp - startTimestamp;
+            const currentElapsedTime = getElapsedTime(startTimestamp, duration);
+            setElapsedTime(currentElapsedTime);
+            setIsPlaying(currentElapsedTime < duration); // Song is playing if elapsed time is less than duration
+          } else {
+            setIsPlaying(false); // If no timestamps, the song is paused
+            setElapsedTime(0); // No progress if paused
+          }
         }
       }
     }, 1000); // Update every second
@@ -78,9 +84,9 @@ export default function YouTubeMusicActivity() {
               {lanyard.activities.map((activity) => {
                 if (!activity.name?.includes("YouTube Music")) return null;
 
-                const startTimestamp = activity.timestamps?.start || activity.created_at;
+                const startTimestamp = activity.timestamps?.start;
                 const endTimestamp = activity.timestamps?.end;
-                const duration = endTimestamp ? endTimestamp - startTimestamp : Date.now() - startTimestamp;
+                const duration = endTimestamp ? endTimestamp - startTimestamp : 0;
 
                 return (
                   <div key={activity.id} className="text-sm text-white">
@@ -133,24 +139,28 @@ export default function YouTubeMusicActivity() {
                         )}
                         <div className="mt-2">
                           {/* Progress bar */}
-                          <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
-                            <div
-                              className="block h-full bg-white"
-                              style={{
-                                width: `${(elapsedTime / duration) * 100}%`, // Fill the bar based on elapsed time
-                              }}
-                            />
-                          </div>
-                          <p className="text-xs opacity-60 mt-1">
-                            <span className="flex items-center text-sm">
-                              <span className="basis-full">
-                                {formatDuration(elapsedTime)}
+                          {isPlaying && (
+                            <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
+                              <div
+                                className="block h-full bg-white"
+                                style={{
+                                  width: `${(elapsedTime / duration) * 100}%`, // Fill the bar based on elapsed time
+                                }}
+                              />
+                            </div>
+                          )}
+                          {isPlaying && (
+                            <p className="text-xs opacity-60 mt-1">
+                              <span className="flex items-center text-sm">
+                                <span className="basis-full">
+                                  {formatDuration(elapsedTime)}
+                                </span>
+                                <span className="basis-full text-right">
+                                  {formatDuration(duration)}
+                                </span>
                               </span>
-                              <span className="basis-full text-right">
-                                {endTimestamp ? formatDuration(duration) : "--:--"}
-                              </span>
-                            </span>
-                          </p>
+                            </p>
+                          )}
                         </div>
                       </div>
                     </div>
