@@ -111,8 +111,21 @@ export default function YouTubeMusicActivity() {
                         {activity.type === 2 && (
                           <div className="mt-1">
                             {activity.details && (
+                              <p>
+                                <a className="opacity-80 border-b border-[#fff4] transition hover:border-white">
+                                  {activity.details}
+                                </a>{" "}
+                                <a className="opacity-60 border-[#fff4] transition hover:border-white">{!activity.state.toLowerCase().includes("by") && <> oleh </>}</a>{" "}
+                                <a className="opacity-60  font-bold border-b border-[#fff4] transition hover:border-white">
+                                  {activity.state}
+                                </a>
+                              </p>
+                            )}
+                            {activity.assets && activity.assets.large_text && (
                               <p className="opacity-60">
-                                <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">{activity.details}</a> {!activity.state.toLowerCase().includes("by") && (<> oleh </>)} <a className="font-bold border-b border-[#fff4] transition hover:border-white">{activity.state}</a>
+                                Album <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">
+                                  {activity.assets.large_text}
+                                </a>
                               </p>
                             )}
                           </div>
