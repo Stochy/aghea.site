@@ -21,8 +21,17 @@ const formatDuration = (ms: number) => {
 const getThumbnailUrl = (imagePath: string) => {
   if (!imagePath) return "/images/emptysong.jpg"; // Return the fallback if imagePath is falsy (null or undefined)
 
-  const imageUrl = imagePath.split("mp:external/")[1]; // Extract the URL after "mp:external/"
-  return `https://media.discordapp.net/external/${imageUrl}`;
+  // Check if imagePath contains "mp:external" or "attachments"
+  if (imagePath.includes("mp:external")) {
+    const imageUrl = imagePath.split("mp:external/")[1]; // Extract the URL after "mp:external/"
+    return `https://media.discordapp.net/external/${imageUrl}`;
+  } else if (imagePath.includes("attachments")) {
+    // If it's an attachment URL, return the appropriate path
+    const imageUrl = imagePath.split("attachments/")[1]; // Extract the URL after "attachments/"
+    return `https://cdn.discordapp.com/attachments/${imageUrl}`;
+  }
+
+  return "/images/emptysong.jpg"; // Fallback if no valid format is found
 };
 
 const USER_ID = "982268021143896064";
@@ -99,19 +108,13 @@ export default function YouTubeMusicActivity() {
                             </span>
                           </span>
                         </p>
-                        {activity.details && (
-                          <p className="opacity-80">
-                            <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">
-                              {activity.details}
-                            </a>
-                            {!activity.details.includes("oleh") && !activity.details.includes("by") && (
-                              <> oleh </>
+                        {activity.type === 2 && (
+                          <div className="mt-1">
+                            {activity.details && (
+                              <p className="opacity-60">
+                                <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">{activity.details}</a> {!activity.state.toLowerCase().includes("by") && (<> oleh </>)} <a className="font-bold border-b border-[#fff4] transition hover:border-white">{activity.state}</a>
+                              </p>
                             )}
-                            <a className="font-bold border-b border-[#fff4] transition hover:border-white">
-                              {activity.state}
-                            </a>
-                          </p>
-                        )}
                           </div>
                         )}
                         {duration > 0 && (
