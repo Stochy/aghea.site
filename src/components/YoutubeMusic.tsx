@@ -58,7 +58,7 @@ export default function YouTubeMusicActivity() {
           const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
 
-          // If there are no timestamps, treat it as paused
+          // If both startTimestamp and endTimestamp are defined, calculate duration
           if (startTimestamp && endTimestamp) {
             const duration = endTimestamp - startTimestamp;
             const currentElapsedTime = getElapsedTime(startTimestamp, duration);
@@ -86,7 +86,9 @@ export default function YouTubeMusicActivity() {
 
                 const startTimestamp = activity.timestamps?.start;
                 const endTimestamp = activity.timestamps?.end;
-                const duration = endTimestamp ? endTimestamp - startTimestamp : 0;
+
+                // Ensure startTimestamp is defined before calculating duration
+                const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : 0;
 
                 return (
                   <div key={activity.id} className="text-sm text-white">
