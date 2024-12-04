@@ -44,8 +44,7 @@ export default function Discord() {
   // Filter to show "Listening to" activities (type 2) except Spotify
   const otherActivities = lanyard?.activities.filter(
     (activity) =>
-      activity.type === 2 && // Listening to activity
-      !activity.name?.includes("Spotify") || // Exclude Spotify
+      activity.type !== 2 &&
       activity.type !== 4 // Exclude custom statuses
   );
 

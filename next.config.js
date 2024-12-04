@@ -22,7 +22,7 @@ const config = {
   swcMinify: true,
   i18n: { locales: ["id-ID"], defaultLocale: "id-ID" },
   images: {
-    domains: ["cdn.discordapp.com", "i.scdn.co", "skillicons.dev"],
+    domains: ["cdn.discordapp.com", "i.scdn.co", "skillicons.dev", "media.discordapp.net"],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
