@@ -25,7 +25,7 @@ const getThumbnailUrl = (imagePath: string) => {
   if (imagePath.includes("mp:external")) {
     const imageUrl = imagePath.split("mp:external/")[1]; // Extract the URL after "mp:external/"
     return `https://media.discordapp.net/external/${imageUrl}`;
-  } else if (imagePath.includes("attachments")) {
+  } else if (imagePath.includes("mp:attachments")) {
     // If it's an attachment URL, return the appropriate path
     const imageUrl = imagePath.split("attachments/")[1]; // Extract the URL after "attachments/"
     return `https://cdn.discordapp.com/attachments/${imageUrl}`;
