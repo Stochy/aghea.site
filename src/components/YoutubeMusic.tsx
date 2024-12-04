@@ -62,7 +62,7 @@ export default function YouTubeMusicActivity() {
       {lanyard ? (
         <div>
           {lanyard?.activities?.some((activity) => activity.name?.includes("YouTube Music")) && (
-            <div className="mt-2 p-3 bg-transparent border border-gray-500 rounded-lg shadow-lg">
+            <div className="flex gap-2 items-center text-base leading-snug">
               {lanyard.activities.map((activity) => {
                 if (!activity.name?.includes("YouTube Music")) return null;
 
@@ -77,7 +77,9 @@ export default function YouTubeMusicActivity() {
                         <img
                           src={getThumbnailUrl(activity.assets.large_image)} // External URL for thumbnail
                           alt="Song Thumbnail"
-                          className="w-12 h-12 rounded-lg"
+                          className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
+                          width={256}
+                          height={256}
                         />
                       )}
                       <div className="flex flex-col justify-between flex-1">
