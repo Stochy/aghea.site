@@ -75,7 +75,7 @@ export default function YouTubeMusicActivity() {
                     <div className="flex items-center gap-3">
                       {activity.assets?.large_image && (
                         <img
-                          src={getThumbnailUrl(activity.assets.large_image)} // External URL for thumbnail
+                          src={getThumbnailUrl(activity.assets.large_image) ?? "/images/emptysong.jpg"} // External URL for thumbnail or fallback
                           alt="Song Thumbnail"
                           className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
                           width={256}
