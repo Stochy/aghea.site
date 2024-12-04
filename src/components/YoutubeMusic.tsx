@@ -79,10 +79,10 @@ export default function YouTubeMusicActivity() {
     <div className="mb-4">
       {lanyard ? (
         <div>
-          {lanyard?.activities?.some((activity) => activity.name?.includes("YouTube Music")) && (
+          {lanyard?.activities?.some((activity) => activity.name?.includes("YouTube")) && (
             <div className="flex gap-2 items-center text-base leading-snug">
               {lanyard.activities.map((activity) => {
-                if (!activity.name?.includes("YouTube Music")) return null;
+                if (!activity.name?.includes("YouTube")) return null;
 
                 const startTimestamp = activity.timestamps?.start;
                 const endTimestamp = activity.timestamps?.end;
@@ -105,7 +105,7 @@ export default function YouTubeMusicActivity() {
                       <div className="flex flex-col justify-between flex-1">
                         <p className="truncate whitespace-nowrap">
                           <span className="opacity-95 flex items-center gap-2">
-                            <Icon icon="simple-icons:youtubemusic" width={48} height={48} className="opacity-80 w-4 h-4" />
+                            <Icon icon={activity.type === 2 ? "simple-icons:youtubemusic" : "simple-icons:youtube"} width={48} height={48} className="opacity-80 w-4 h-4" />
                             {activity.name}
                             <span className="ml-auto">
                               {isPlaying ? (
@@ -116,7 +116,7 @@ export default function YouTubeMusicActivity() {
                             </span>
                           </span>
                         </p>
-                        {activity.type === 2 && (
+                        {(activity.type === 2 || activity.type === 3) && (
                           <div className="mt-1">
                             {activity.details && (
                               <p>
