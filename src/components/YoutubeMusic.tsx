@@ -1,4 +1,5 @@
 import { useEffect, useState } from "preact/hooks";
+import Image from "next/future/image";
 import { useLanyard } from "react-use-lanyard";
 import { Icon } from '@iconify/react';
 
