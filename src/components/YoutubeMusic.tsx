@@ -12,9 +12,12 @@ const getElapsedTime = (start: number, duration: number) => {
 
 // Format time to MM:SS
 const formatDuration = (ms: number) => {
-  const minutes = Math.floor(ms / 60000); // Convert milliseconds to minutes
-  const seconds = Math.floor((ms % 60000) / 1000); // Convert the remaining milliseconds to seconds
-  return `${minutes}:${seconds.toString().padStart(2, "0")}`; // Return formatted string (e.g., "2:30")
+  const hours = Math.floor(ms / 3600000); // Convert milliseconds to hours
+  const minutes = Math.floor((ms % 3600000) / 60000); // Remaining minutes after removing hours
+  const seconds = Math.floor((ms % 60000) / 1000); // Remaining seconds after removing minutes
+  return hours > 0
+    ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}` // Include hours if duration is > 1 hour
+    : `${minutes}:${seconds.toString().padStart(2, "0")}`; // Format as MM:SS if < 1 hour
 };
 
 // Extract external URL for thumbnail image
