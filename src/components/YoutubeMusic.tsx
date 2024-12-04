@@ -81,14 +81,23 @@ export default function YouTubeMusicActivity() {
                         />
                       )}
                       <div className="flex flex-col justify-between flex-1">
-                        <p className="truncate">
-                          <span className="opacity-80">{getActivityType(activity.type)}</span>{" "}
-                          <span className="opacity-95">{activity.name}</span>
+                        <p className="truncate whitespace-nowrap">
+                          <span className="opacity-95 flex items-center gap-2">
+                            <Icon icon="simple-icons:youtubemusic" className="opacity-80" />
+                            {activity.name}
+                            <span className="ml-auto">
+                              {isPlaying ? (
+                                <Icon icon="line-md:play-to-pause-transition" className="text-white h-5 w-5" />
+                              ) : (
+                                <Icon icon="line-md:pause-to-play-transition" className="text-white h-5 w-5" />
+                              )}
+                            </span>
+                          </span>
                         </p>
                         {activity.type === 2 && (
                           <div className="mt-1">
                             {activity.details && (
-                              <p className="opacity-80 flex items-center gap-2 truncate">
+                              <p className="opacity-80 items-center gap-2">
                                 {activity.state} – {activity.details}
                               </p>
                             )}
