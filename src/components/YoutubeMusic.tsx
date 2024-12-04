@@ -121,9 +121,10 @@ export default function YouTubeMusicActivity() {
                                 </a>
                               </p>
                             )}
-                            {activity.assets && activity.assets.large_text && (
+                            {activity.assets?.large_text && (
                               <p className="opacity-60">
-                                Album <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">
+                                Album{" "}
+                                <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">
                                   {activity.assets.large_text}
                                 </a>
                               </p>
