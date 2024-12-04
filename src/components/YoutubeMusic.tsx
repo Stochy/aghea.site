@@ -140,16 +140,3 @@ export default function YouTubeMusicActivity() {
     </div>
   );
 }
-
-const activityTypes = [
-  "Playing",
-  "Streaming",
-  "Listening to",
-  "Watching",
-  "Custom Status: ",
-  "Competing in",
-];
-
-const getActivityType = (type: number) => {
-  return activityTypes[type];
-};
