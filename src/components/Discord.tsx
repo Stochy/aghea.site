@@ -132,6 +132,21 @@ interface OtherActivitiesProps {
   activities: Activity[] | undefined;
 }
 
+// Mapping activity names to their corresponding icons
+const getIconByActivityName = (name: string) => {
+  if (name.includes("Spotify")) {
+    return "simple-icons:spotify";
+  } else if (name.includes("YouTube Music")) {
+    return "simple-icons:youtubemusic";
+  } else if (name.includes("YouTube")) {
+    return "simple-icons:youtube";
+  } else if (name.includes("Twitch")) {
+    return "simple-icons:twitch";
+  } else {
+    return "mdi:music-note"; // Default music note icon
+  }
+};
+
 function OtherActivities({ activities }: OtherActivitiesProps) {
   const [now, setNow] = useState(new Date());
 
@@ -160,15 +175,16 @@ function OtherActivities({ activities }: OtherActivitiesProps) {
           </p>
           {activity.type === 2 && (
             <div className="mt-1">
-              {/* Tampilkan nama lagu dan artis */}
+              {/* Display activity icon dynamically */}
               {activity.details && (
                 <p className="opacity-80 flex items-center gap-2">
                   <Icon
-                    icon="simple-icons:youtubemusic"
+                    icon={getIconByActivityName(activity.name)} // Dynamically set the icon
                     width={20}
                     height={20}
                     className="w-4 h-4"
-                  />{activity.details} <a className="opacity-75">oleh</a> {activity.state}
+                  />
+                  {activity.state} – {activity.details}
                 </p>
               )}
             </div>
