@@ -85,7 +85,7 @@ export default function YouTubeMusicActivity() {
                       <div className="flex flex-col justify-between flex-1">
                         <p className="truncate whitespace-nowrap">
                           <span className="opacity-95 flex items-center gap-2">
-                            <Icon icon="simple-icons:youtubemusic" className="opacity-80" />
+                            <Icon icon="simple-icons:youtubemusic" width={48} height={48} className="opacity-80 w-4 h-4" />
                             {activity.name}
                             <span className="ml-auto">
                               {isPlaying ? (
