@@ -99,8 +99,8 @@ export default function YouTubeMusicActivity() {
                         {activity.type === 2 && (
                           <div className="mt-1">
                             {activity.details && (
-                              <p className="opacity-80 items-center gap-2">
-                                {activity.state} – {activity.details}
+                              <p className="opacity-60">
+                                <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">{activity.details}</a> by <a className="font-bold border-b border-[#fff4] transition hover:border-white">{activity.state}</a>
                               </p>
                             )}
                           </div>
