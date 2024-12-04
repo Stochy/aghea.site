@@ -55,13 +55,13 @@ export default function YouTubeMusicActivity() {
 
         if (youtubeMusicActivities?.length > 0) {
           const activity = youtubeMusicActivities[0];
-          const startTimestamp = activity.timestamps?.start || 0;
-          const endTimestamp = activity.timestamps?.end || 0;
-          const duration = endTimestamp - startTimestamp;
+          const startTimestamp = activity.timestamps?.start || activity.created_at;
+          const endTimestamp = activity.timestamps?.end;
+          const duration = endTimestamp ? endTimestamp - startTimestamp : Date.now() - startTimestamp;
           const currentElapsedTime = getElapsedTime(startTimestamp, duration);
 
           setElapsedTime(currentElapsedTime);
-          setIsPlaying(currentElapsedTime < duration); // Determine if the song is still playing
+          setIsPlaying(endTimestamp ? currentElapsedTime < duration : true); // Determine if the song is still playing
         }
       }
     }, 1000); // Update every second
@@ -78,9 +78,9 @@ export default function YouTubeMusicActivity() {
               {lanyard.activities.map((activity) => {
                 if (!activity.name?.includes("YouTube Music")) return null;
 
-                const startTimestamp = activity.timestamps?.start || 0;
-                const endTimestamp = activity.timestamps?.end || 0;
-                const duration = endTimestamp - startTimestamp;
+                const startTimestamp = activity.timestamps?.start || activity.created_at;
+                const endTimestamp = activity.timestamps?.end;
+                const duration = endTimestamp ? endTimestamp - startTimestamp : Date.now() - startTimestamp;
 
                 return (
                   <div key={activity.id} className="text-sm text-white">
@@ -117,29 +117,27 @@ export default function YouTubeMusicActivity() {
                             )}
                           </div>
                         )}
-                        {duration > 0 && (
-                          <div className="mt-2">
-                            {/* Progress bar */}
-                            <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
-                              <div
-                                className="block h-full bg-white"
-                                style={{
-                                  width: `${(elapsedTime / duration) * 100}%`, // Fill the bar based on elapsed time
-                                }}
-                              />
-                            </div>
-                            <p className="text-xs opacity-60 mt-1">
-                              <span className="flex items-center text-sm">
-                                <span className="basis-full">
-                                  {formatDuration(elapsedTime)}
-                                </span>
-                                <span className="basis-full text-right">
-                                  {formatDuration(duration)}
-                                </span>
-                              </span>
-                            </p>
+                        <div className="mt-2">
+                          {/* Progress bar */}
+                          <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
+                            <div
+                              className="block h-full bg-white"
+                              style={{
+                                width: `${(elapsedTime / duration) * 100}%`, // Fill the bar based on elapsed time
+                              }}
+                            />
                           </div>
-                        )}
+                          <p className="text-xs opacity-60 mt-1">
+                            <span className="flex items-center text-sm">
+                              <span className="basis-full">
+                                {formatDuration(elapsedTime)}
+                              </span>
+                              <span className="basis-full text-right">
+                                {endTimestamp ? formatDuration(duration) : "--:--"}
+                              </span>
+                            </span>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
