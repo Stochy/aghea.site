@@ -44,7 +44,14 @@ interface DiscordUser {
 }
 
 export default function Discord() {
-  const { status: lanyard } = useLanyard({
+  interface LanyardData {
+  discord_user: DiscordUser;
+  discord_status: string;
+  activities: Activity[];
+  // Add other properties based on your actual data structure
+  }
+
+  const { status: lanyard } = useLanyard<LanyardData>({
     userId: USER_ID,
     socket: true,
   });
