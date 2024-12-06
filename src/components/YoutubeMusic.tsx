@@ -1,8 +1,8 @@
-import { useEffect, useState } from "preact/hooks";
-import Image from "next/future/image";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import { Icon } from "@iconify/react";
 
-// Utility Functions
+// Helper functions
 const getElapsedTime = (start: number, duration: number) => {
   const currentTime = Date.now();
   const elapsedTime = Math.max(0, currentTime - start);
@@ -14,9 +14,7 @@ const formatDuration = (ms: number) => {
   const minutes = Math.floor((ms % 3600000) / 60000);
   const seconds = Math.floor((ms % 60000) / 1000);
   return hours > 0
-    ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds
-        .toString()
-        .padStart(2, "0")}`
+    ? `${hours}:${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
     : `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
@@ -34,31 +32,34 @@ const getThumbnailUrl = (imagePath: string) => {
 
 // Component
 export default function YouTubeMusicActivity() {
-  const [lanyard, setLanyard] = useState(null);
+  const [lanyardData, setLanyardData] = useState(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Fetch data from the API
+  // Fetch Lanyard data from the custom API
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchLanyardData = async () => {
       try {
         const res = await fetch("/api/lanyard");
         if (!res.ok) throw new Error("Failed to fetch Lanyard data");
         const data = await res.json();
-        setLanyard(data);
+        setLanyardData(data.data);
       } catch (error) {
         console.error("Error fetching Lanyard data:", error);
       }
     };
 
-    fetchData();
+    fetchLanyardData();
+
+    const interval = setInterval(fetchLanyardData, 10000); // Refresh every 10 seconds
+    return () => clearInterval(interval);
   }, []);
 
   // Update elapsed time every second
   useEffect(() => {
     const interval = setInterval(() => {
-      if (lanyard) {
-        const youtubeMusicActivities = lanyard?.activities.filter((activity: any) =>
+      if (lanyardData) {
+        const youtubeMusicActivities = lanyardData.activities?.filter((activity: any) =>
           activity.name?.includes("YouTube")
         );
 
@@ -81,18 +82,18 @@ export default function YouTubeMusicActivity() {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [lanyard]);
+  }, [lanyardData]);
 
   // Render
   return (
     <div className="mb-4">
-      {lanyard ? (
+      {lanyardData ? (
         <div>
-          {lanyard?.activities?.some((activity: any) =>
+          {lanyardData?.activities?.some((activity: any) =>
             activity.name?.includes("YouTube")
           ) && (
             <div className="flex gap-2 items-center text-base leading-snug">
-              {lanyard.activities.map((activity: any) => {
+              {lanyardData.activities.map((activity: any) => {
                 if (!activity.name?.includes("YouTube")) return null;
 
                 const startTimestamp = activity.timestamps?.start;
@@ -107,8 +108,8 @@ export default function YouTubeMusicActivity() {
                           src={getThumbnailUrl(activity.assets.large_image)}
                           alt="Song Thumbnail"
                           className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
-                          width={256}
-                          height={256}
+                          width={65}
+                          height={65}
                         />
                       )}
                       <div className="flex flex-col justify-between flex-1">
