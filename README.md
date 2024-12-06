@@ -16,7 +16,7 @@
 # Support
 
 <a href="https://www.buymeacoffee.com/agcrisbp" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height: 32px !important;width: 114px !important;" ></a>
-<a href="https://saweria.co/agcrisbp" target="_blank"><img src="https://bio.aghea.site/saweria-button.png" alt="Saweria" style="height: 30px !important;width: 114px !important;" ></a>
+<a href="https://saweria.co/agcrisbp" target="_blank"><img src="https://bio-aghea.vercel.app/saweria-button.png" alt="Saweria" style="height: 30px !important;width: 114px !important;" ></a>
 <a href="https://github.com/sponsors/agcrisbp" target="_blank"><img src="/public/images/sponsor-badge.svg" alt="Github Sponsor" style="height: 30px !important;width: 114px !important;" ></a>
 
 ---
@@ -49,7 +49,7 @@ cd app && yarn dev
 # Information
 
 ### Discord ID Setup
-- Read: [Setup](https://adlink.aghea.site/frontend#add-discord-status), and **YOU MUST** join [Lanyard Discord Server](https://discord.gg/lanyard).
+- Read: [Setup](https://ad-link-docs.vercel.app/frontend#add-discord-status), and **YOU MUST** join [Lanyard Discord Server](https://discord.gg/lanyard).
 
 ### Spotify Setup
 - Use [ADLink Spotify](https://github.com/agcrisbp/Spotify-ADLink).
@@ -61,6 +61,6 @@ cd app && yarn dev
 ---
 
 # QNA?
-- I really open my door to anyone who wants to ask questions if they encounter difficulties in creating this app. Please contact me through [SimpleX](https://contact.aghea.site) or [Email](https://email.aghea.site).
+- I really open my door to anyone who wants to ask questions if they encounter difficulties in creating this app. Please contact me through [SimpleX](https://aghea.vercel.app/contact) or [Email](https://aghea.vercel.app/email).
 
 ---
