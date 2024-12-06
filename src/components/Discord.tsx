@@ -32,9 +32,6 @@ export default function Discord() {
     socket: true,
   });
 
-  const avatarHash = "79166404772f80490feb57b0e25008fa";
-  const decorationHash = lanyard?.discord_user.avatar_decoration_data?.asset;
-
   // Filter to show "Listening to" activities (type 2) except Spotify
   const otherActivities = lanyard?.activities.filter(
     (activity) =>
@@ -64,11 +61,10 @@ export default function Discord() {
             />
           </Link>
 
-          {/* Decoration (Check if asset exists and if it's animated) */}
-          {decorationHash && (
+          {/* Check if avatar decoration data exists */}
+          {lanyard?.discord_user.avatar_decoration_data?.asset && (
             <Image
-              src={`https://cdn.discordapp.com/avatar-decoration-presets/${decorationHash}.png?size=80&passthrough=true`}
-              
+              src={`https://cdn.discordapp.com/avatar-decoration-presets/${lanyard.discord_user.avatar_decoration_data.asset}.png?size=80&passthrough=true`}
               alt="Avatar Decoration"
               width={320}
               height={320}
