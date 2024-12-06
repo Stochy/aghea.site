@@ -166,9 +166,15 @@ export default function YouTubeMusicActivity() {
                               <p>
                                 <a
                                   className="opacity-80 border-b border-[#fff4] transition hover:border-white"
-                                  href={`https://music.youtube.com/search?q=${encodeURIComponent(
-                                    `${activity.details} ${activity.state || ''}`
-                                  )}`}
+                                  href={
+                                    activity.name.includes("YouTube Music")
+                                      ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                          `${activity.details} ${activity.state || ''}`
+                                        )}`
+                                      : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                          `${activity.details} ${activity.state || ''}`
+                                        )}`
+                                  }
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
@@ -178,11 +184,18 @@ export default function YouTubeMusicActivity() {
                                   {!activity.state?.toLowerCase().includes("by") && " oleh "}
                                 </a>{" "}
                                 <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
-                                  href={`https://music.youtube.com/search?q=${encodeURIComponent(
-                                    `${activity.details} ${activity.state || ''}`
-                                  )}`}
+                                  href={
+                                    activity.name.includes("YouTube Music")
+                                      ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                          `${activity.details} ${activity.state || ''}`
+                                        )}`
+                                      : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                          `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
+                                        )}`
+                                  }
                                   target="_blank"
-                                  rel="noopener noreferrer">
+                                  rel="noopener noreferrer"
+                                >
                                   {activity.state}
                                 </a>
                               </p>
@@ -192,7 +205,11 @@ export default function YouTubeMusicActivity() {
                                 Album{" "}
                                 <a
                                   className="opacity-85 border-b border-[#fff4] transition hover:border-white"
-                                  href={`https://music.youtube.com/search?q=${encodeURIComponent(activity.assets.large_text)}`}
+                                  href={
+                                    activity.name.includes("YouTube Music")
+                                      ? `https://music.youtube.com/search?q=${encodeURIComponent(activity.assets.large_text)}`
+                                      : `https://www.youtube.com/results?search_query=${encodeURIComponent(activity.assets.large_text)}`
+                                  }
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
