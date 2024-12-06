@@ -164,13 +164,25 @@ export default function YouTubeMusicActivity() {
                           <div className="mt-1">
                             {activity.details && (
                               <p>
-                                <a className="opacity-80 border-b border-[#fff4] transition hover:border-white">
+                                <a
+                                  className="opacity-80 border-b border-[#fff4] transition hover:border-white"
+                                  href={`https://music.youtube.com/search?q=${encodeURIComponent(
+                                    `${activity.details} ${activity.state || ''}`
+                                  )}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
                                   {activity.details}
                                 </a>{" "}
                                 <a className="opacity-60 border-[#fff4] transition hover:border-white">
-                                  {!activity.state.toLowerCase().includes("by") && " oleh "}
+                                  {!activity.state?.toLowerCase().includes("by") && " oleh "}
                                 </a>{" "}
-                                <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white">
+                                <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
+                                  href={`https://music.youtube.com/search?q=${encodeURIComponent(
+                                    `${activity.details} ${activity.state || ''}`
+                                  )}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer">
                                   {activity.state}
                                 </a>
                               </p>
@@ -178,7 +190,12 @@ export default function YouTubeMusicActivity() {
                             {activity.assets?.large_text && (
                               <p className="opacity-60">
                                 Album{" "}
-                                <a className="opacity-85 border-b border-[#fff4] transition hover:border-white">
+                                <a
+                                  className="opacity-85 border-b border-[#fff4] transition hover:border-white"
+                                  href={`https://music.youtube.com/search?q=${encodeURIComponent(activity.assets.large_text)}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
                                   {activity.assets.large_text}
                                 </a>
                               </p>
