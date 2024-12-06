@@ -71,7 +71,7 @@ export default function YouTubeMusicActivity() {
   
     fetchLanyardData();
   
-    const interval = setInterval(fetchLanyardData, 1000); // Refresh every 1 seconds
+    const interval = setInterval(fetchLanyardData, 5000); // Refresh every 5 seconds
     return () => clearInterval(interval);
   }, []);
   
