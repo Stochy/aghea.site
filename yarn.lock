@@ -2259,7 +2259,7 @@ react-is@^16.13.1:
 
 react-use-lanyard@^0.3.1:
   version "0.3.1"
-  resolved "https://registry.npmjs.org/react-use-lanyard/-/react-use-lanyard-0.3.1.tgz"
+  resolved "https://registry.yarnpkg.com/react-use-lanyard/-/react-use-lanyard-0.3.1.tgz#f21e200ebff00947851cb4cb51d3aa615e093c11"
   integrity sha512-p8aT7txFa+hIHEdSnSr7ZwF2bL8E8Ei0RPQI2sMtOtoO0Xo51tPNMDwq80pNBAzfcaRRpRcg6wefv6hT70n7Nw==
   dependencies:
     swr "^2.2.4"
