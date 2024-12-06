@@ -1,11 +1,10 @@
-import formatDistanceStrict from "date-fns/formatDistanceStrict";
-import Image from "next/future/image";
 import { useEffect, useState } from "preact/hooks";
+import Image from "next/future/image";
 import Link from "next/link";
 import { Icon } from '@iconify/react';
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
-// Define the user ID
-const USER_ID = "982268021143896064";
+const USER_ID = "982268021143896064";  // Replace with your USER_ID
 
 // Status colors map
 const statusColors: Record<string, string> = {
@@ -14,66 +13,43 @@ const statusColors: Record<string, string> = {
   dnd: "bg-rose-400",
 };
 
-const getStatusColor = (
-  status: "online" | "idle" | "dnd" | "offline" | undefined
-) => {
+const getStatusColor = (status: string | undefined) => {
   if (!status) return "bg-gray-400";
   const str = statusColors[status];
-  if (!str) return "bg-gray-400";
-  return str;
+  return str || "bg-gray-400";
 };
 
 const capitalize = (str: string) => {
   return str[0].toUpperCase() + str.slice(1);
 };
 
-// Fetch Lanyard data using the Lanyard API
-const fetchLanyardData = async (userId: string) => {
-  const res = await fetch(`https://api.lanyard.rest/v1/users/${userId}`);
-  if (!res.ok) {
-    throw new Error('Failed to fetch Lanyard data');
-  }
-  const data = await res.json();
-  return data;
-};
-
 export default function Discord() {
   const [lanyard, setLanyard] = useState<any | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
-  // Fetch the Lanyard data on mount
+
+  // Fetch the Lanyard data from the Next.js API route
   useEffect(() => {
-    fetchLanyardData(USER_ID)
-      .then(data => {
+    const fetchData = async () => {
+      try {
+        const res = await fetch("/api/lanyard");
+        if (!res.ok) {
+          throw new Error("Failed to fetch data");
+        }
+        const data = await res.json();
         setLanyard(data);
         setLoading(false);
-      })
-      .catch(err => {
-        setError(err.message);
+      } catch (err) {
+        setError("Failed to load data");
         setLoading(false);
-      });
-  }, []);
-  
-  // WebSocket for real-time updates
-  useEffect(() => {
-    const socketUrl = `wss://api.lanyard.app/socket/v1/?user_id=${USER_ID}`;
-    const socket = new WebSocket(socketUrl);
-
-    socket.onmessage = (event) => {
-      const data = JSON.parse(event.data);
-      setLanyard(data);
+      }
     };
 
-    socket.onclose = () => {
-      console.log("WebSocket closed");
-    };
-
-    return () => socket.close();
+    fetchData();
   }, []);
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (error) return <div>{error}</div>;
 
   // Filter out the activities for non-Spotify and non-custom statuses
   const otherActivities = lanyard?.data?.activities.filter(
