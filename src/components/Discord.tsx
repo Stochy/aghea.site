@@ -4,9 +4,6 @@ import Link from "next/link";
 import { Icon } from '@iconify/react';
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
 
-const USER_ID = "982268021143896064";  // Replace with your USER_ID
-
-// Status colors map
 const statusColors: Record<string, string> = {
   online: "bg-emerald-500",
   idle: "bg-amber-400",
@@ -51,22 +48,24 @@ export default function Discord() {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
+  const { USER_ID, data } = lanyard || {};
+
   // Filter out the activities for non-Spotify and non-custom statuses
-  const otherActivities = lanyard?.data?.activities.filter(
+  const otherActivities = data?.activities.filter(
     (activity: any) => activity.type !== 2 && activity.type !== 4
   );
 
   return (
     <div className="mb-4 flex gap-2 items-center text-base leading-snug">
-      {lanyard?.data?.discord_user.avatar ? (
+      {data?.discord_user.avatar ? (
         <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
           {/* Avatar */}
           <Link href="/discord">
             <Image
-              src={`https://cdn.discordapp.com/avatars/${USER_ID}/${
-                lanyard?.data.discord_user.avatar
+              src={`https://cdn.discordapp.com/avatars/${data?.discord_user.id}/${
+                data?.discord_user.avatar
               }.${
-                lanyard?.data.discord_user.avatar.startsWith("a_") ? "gif" : "webp"
+                data?.discord_user.avatar.startsWith("a_") ? "gif" : "webp"
               }?size=256`}
               alt="Discord Avatar"
               width={256}
@@ -77,9 +76,9 @@ export default function Discord() {
           </Link>
 
           {/* Avatar decoration (if exists) */}
-          {lanyard?.data.discord_user.avatar_decoration_data?.asset && (
+          {data?.discord_user.avatar_decoration_data?.asset && (
             <Image
-              src={`https://cdn.discordapp.com/avatar-decoration-presets/${lanyard.data.discord_user.avatar_decoration_data.asset}.png?size=80&passthrough=true`}
+              src={`https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=80&passthrough=true`}
               alt="Avatar Decoration"
               width={320}
               height={320}
@@ -90,12 +89,12 @@ export default function Discord() {
           {/* Status Indicator */}
           <div
             className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
-              lanyard?.data.discord_status
+              data?.discord_status
             )}`}
           >
             <div className="text-sm absolute z-10 mb-1 px-2 py-1 bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full rounded-lg w-max">
-              {capitalize(lanyard?.data.discord_status)} on{" "}
-              {lanyard?.data.active_on_discord_mobile ? "Mobile" : "Desktop"}
+              {capitalize(data?.discord_status)} on{" "}
+              {data?.active_on_discord_mobile ? "Mobile" : "Desktop"}
             </div>
           </div>
         </div>
@@ -104,7 +103,7 @@ export default function Discord() {
       )}
       <div>
         <p>
-          {lanyard?.data.discord_user.display_name}
+          {data?.discord_user.display_name}
           <span className="ml-2 opacity-50">
             <Link href="/discord">
               <a
@@ -112,15 +111,15 @@ export default function Discord() {
                 rel="noopener noreferrer"
                 className="border-b border-[#fff4] transition hover:border-white"
               >
-                {lanyard?.data.discord_user.username}
+                {data?.discord_user.username}
               </a>
             </Link>
           </span>
         </p>
         <p>
           <span className="opacity-70">
-            {lanyard?.data.activities[0]?.type === 4
-              ? lanyard?.data.activities[0]?.state
+            {data?.activities[0]?.type === 4
+              ? data?.activities[0]?.state
               : null}
           </span>
         </p>
