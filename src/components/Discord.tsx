@@ -26,32 +26,8 @@ const capitalize = (str: string) => {
   return str[0].toUpperCase() + str.slice(1);
 };
 
-interface DiscordUser {
-  id: string;
-  username: string;
-  avatar: string;
-  avatar_decoration_data?: {
-    sku_id: string;
-    asset: string;
-    expires_at: number;
-  };
-  discriminator: string;
-  clan: string | null;
-  bot: boolean;
-  global_name: string;
-  display_name: string;
-  public_flags: number;
-}
-
 export default function Discord() {
-  interface LanyardData {
-  discord_user: DiscordUser;
-  discord_status: string;
-  activities: Activity[];
-  // Add other properties based on your actual data structure
-  }
-
-  const { status: lanyard } = useLanyard<LanyardData>({
+  const { status: lanyard } = useLanyard({
     userId: USER_ID,
     socket: true,
   });
@@ -88,7 +64,7 @@ export default function Discord() {
           {/* Check if avatar decoration data exists */}
           {lanyard?.discord_user.avatar_decoration_data?.asset && (
             <Image
-              src={`https://cdn.discordapp.com/avatar-decoration-presets/${lanyard.discord_user.avatar_decoration_data.asset}.png?size=80&passthrough=true`}
+              src={`https://cdn.discordapp.com/avatar-decoration-presets/${lanyard.discord_user.avatar_decoration_data!.asset}.png?size=80&passthrough=true`}
               alt="Avatar Decoration"
               width={320}
               height={320}
