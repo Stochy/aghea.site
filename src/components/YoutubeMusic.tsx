@@ -30,13 +30,33 @@ const getThumbnailUrl = (imagePath: string) => {
   return "/images/emptysong.jpg";
 };
 
+interface Activity {
+  id: string;
+  name: string;
+  type: number;
+  state?: string;
+  details?: string;
+  timestamps?: {
+    start?: number;
+    end?: number;
+  };
+  assets?: {
+    large_image?: string;
+    large_text?: string;
+  };
+}
+
+interface LanyardData {
+  activities?: Activity[];
+  discord_status?: string;
+}
+
 // Component
 export default function YouTubeMusicActivity() {
-  const [lanyardData, setLanyardData] = useState(null);
+  const [lanyardData, setLanyardData] = useState<LanyardData | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // Fetch Lanyard data from the custom API
   useEffect(() => {
     const fetchLanyardData = async () => {
       try {
@@ -48,26 +68,25 @@ export default function YouTubeMusicActivity() {
         console.error("Error fetching Lanyard data:", error);
       }
     };
-
+  
     fetchLanyardData();
-
+  
     const interval = setInterval(fetchLanyardData, 10000); // Refresh every 10 seconds
     return () => clearInterval(interval);
   }, []);
-
-  // Update elapsed time every second
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      if (lanyardData) {
-        const youtubeMusicActivities = lanyardData.activities?.filter((activity: any) =>
+      if (lanyardData?.activities) {
+        const youtubeMusicActivities = lanyardData.activities.filter((activity) =>
           activity.name?.includes("YouTube")
         );
-
+  
         if (youtubeMusicActivities?.length > 0) {
           const activity = youtubeMusicActivities[0];
           const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
-
+  
           if (startTimestamp && endTimestamp) {
             const duration = endTimestamp - startTimestamp;
             const currentElapsedTime = getElapsedTime(startTimestamp, duration);
@@ -80,7 +99,7 @@ export default function YouTubeMusicActivity() {
         }
       }
     }, 1000);
-
+  
     return () => clearInterval(interval);
   }, [lanyardData]);
 
