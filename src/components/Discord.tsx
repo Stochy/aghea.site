@@ -5,12 +5,6 @@ import { Activity, useLanyard } from "react-use-lanyard";
 import Link from "next/link";
 import { Icon } from '@iconify/react';
 
-declare module "react-use-lanyard" {
-  interface DiscordUser {
-    display_name: string;
-  }
-}
-
 const USER_ID = "982268021143896064";
 
 const statusColors: Record<string, string> = {
@@ -23,11 +17,8 @@ const getStatusColor = (
   status: "online" | "idle" | "dnd" | "offline" | undefined
 ) => {
   if (!status) return "bg-gray-400";
-
   const str = statusColors[status];
-
   if (!str) return "bg-gray-400";
-
   return str;
 };
 
@@ -41,6 +32,9 @@ export default function Discord() {
     socket: true,
   });
 
+  const avatarHash = "79166404772f80490feb57b0e25008fa";
+  const decorationHash = lanyard?.discord_user.avatar_decoration_data?.asset;
+
   // Filter to show "Listening to" activities (type 2) except Spotify
   const otherActivities = lanyard?.activities.filter(
     (activity) =>
@@ -52,6 +46,7 @@ export default function Discord() {
     <div className="mb-4 flex gap-2 items-center text-base leading-snug">
       {lanyard?.discord_user.avatar ? (
         <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
+          {/* Avatar */}
           <Link href="/discord">
             <Image
               src={`https://cdn.discordapp.com/avatars/${USER_ID}/${
@@ -68,6 +63,20 @@ export default function Discord() {
               className="rounded-full"
             />
           </Link>
+
+          {/* Decoration (Check if asset exists and if it's animated) */}
+          {decorationHash && (
+            <Image
+              src={`https://cdn.discordapp.com/avatar-decoration-presets/${decorationHash}.png?size=80&passthrough=true`}
+              
+              alt="Avatar Decoration"
+              width={320}
+              height={320}
+              className="absolute inset-0 pointer-events-none translate-x-[-0px] scale-125"
+            />
+          )}
+
+          {/* Status Indicator */}
           <div
             className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
               lanyard?.discord_status
@@ -131,7 +140,6 @@ interface OtherActivitiesProps {
   activities: Activity[] | undefined;
 }
 
-// Mapping activity names to their corresponding icons
 const getIconByActivityName = (name: string) => {
   if (name.includes("Spotify")) {
     return "simple-icons:spotify";
@@ -174,11 +182,10 @@ function OtherActivities({ activities }: OtherActivitiesProps) {
           </p>
           {activity.type === 2 && (
             <div className="mt-1">
-              {/* Display activity icon dynamically */}
               {activity.details && (
                 <p className="opacity-80 flex items-center gap-2">
                   <Icon
-                    icon={getIconByActivityName(activity.name)} // Dynamically set the icon
+                    icon={getIconByActivityName(activity.name)}
                     width={20}
                     height={20}
                     className="w-4 h-4"
