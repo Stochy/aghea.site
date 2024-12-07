@@ -224,7 +224,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"Lagu aransemen yang dibuat hanya untuk mengetes peralatan musik. Artis orisinal: Bring Me The Horizon.",
 		image: "/images/projects/ine.jpg",
-		url: "https://it-never-ends.vercel.app/",
+		url: "https://music.lnk.to/tFnCAY",
 		stack: [
 			{
 				name: "Apple Music",
@@ -241,7 +241,7 @@ export const projects: ProjectInfo[] = [
 		description:
 			"Album ini merupakan kompilasi lagu-lagu Bon-Bon Soultaker dari Album 'Deathless Guitar' (2012), 'Scents of Death' (2012), 'Doubt' (2013), and 'Tuhan, Manusia, Malaikat, & Iblis' (2013).",
 		image: "/images/projects/soultaker.jpg",
-		url: "https://soultaker.vercel.app/",
+		url: "https://music.lnk.to/5MBWOa",
 		stack: [
 			{
 				name: "Apple Music",
