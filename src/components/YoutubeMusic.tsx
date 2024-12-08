@@ -283,16 +283,15 @@ export default function MusicActivity() {
             })}
           </div>
         ) : (
-          <div className="flex items-center gap-3">
-            <Image
-              src="/images/emptysong.jpg"
-              alt="No activity thumbnail"
-              className="w-16 h-16 object-cover object-center rounded-lg"
+          <div className="flex items-center">
+            <Icon
+              icon="akar-icons:music-album-fill"
+              className="w-16 h-16 object-cover object-center rounded-lg text-[#353535]"
               width={65}
               height={65}
             />
             <span className="ml-2 transition hover:border-white">
-              <p className="text-gray-300 text-sm">No Discord Activity Playing</p>
+              <p className="text-gray-300 text-sm">Tidak ada aktivitas Discord</p>
               <Icon
                 icon="simple-icons:discord"
                 width={48}

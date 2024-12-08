@@ -95,7 +95,7 @@ export default function Spotify() {
 							))}
 						</>
 					) : (
-						"Not Listening to Anything"
+						"Offline"
 					)}
 				</p>
 				<p className="opacity-80">
