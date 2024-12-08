@@ -283,13 +283,13 @@ export default function MusicActivity() {
             })}
           </div>
         ) : (
-          <div className="flex items-center text-base leading-snug">
+          <div className="flex items-center gap-3">
             <Image
               src="/images/emptysong.jpg"
               alt="No activity thumbnail"
               className="w-16 h-16 object-cover object-center rounded-lg"
-              width={80}
-              height={80}
+              width={65}
+              height={65}
             />
             <span className="ml-2 transition hover:border-white">
               <p className="text-gray-300 text-sm">No Discord Activity Playing</p>
