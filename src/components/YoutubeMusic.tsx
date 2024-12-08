@@ -264,19 +264,22 @@ export default function MusicActivity() {
           </div>
         ) : (
           // No Activity Section
-          <div className="flex gap-2 items-center">
-            {/* Default Thumbnail */}
-            <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+          <div className="flex items-center">
+            <Icon
+              icon="akar-icons:music-album-fill"
+              className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative text-[#353535]"
+              width={256}
+              height={256}
+            />
+            <span className="ml-2 transition hover:border-white">
+              <p className="text-gray-300 text-sm">Tidak ada aktivitas Discord</p>
               <Icon
-                icon="akar-icons:music-album-fill"
-                className="text-[#353535] w-full h-full object-cover object-center rounded-lg"
-                width={256}
-                height={256}
+                icon="simple-icons:discord"
+                width={48}
+                height={48}
+                className="w-4 h-4 text-gray-300"
               />
-            </div>
-
-            {/* No Activity Text */}
-            <p className="text-gray-400 text-lg">Tidak ada aktivitas Discord</p>
+            </span>
           </div>
         )
       ) : null}
