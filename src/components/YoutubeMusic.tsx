@@ -33,8 +33,9 @@ const getThumbnailUrl = (imagePath: string) => {
 const getActivityIcon = (name: string) => {
   if (name.toLowerCase().includes("youtube music")) return "simple-icons:youtubemusic";
   if (name.toLowerCase().includes("youtube")) return "simple-icons:youtube";
+  if (name.toLowerCase().includes("tune")) return "akar-icons:music";
   if (name.toLowerCase().includes("apple")) return "simple-icons:applemusic";
-  return "akar-icons:music-album-fill";
+  return "skill-icons:discordbots";
 };
 
 interface Activity {
@@ -88,7 +89,8 @@ export default function MusicActivity() {
       if (lanyardData?.activities) {
         const musicActivities = lanyardData.activities.filter(
           (activity) =>
-            activity.name?.toLowerCase().includes("music")
+            activity.name?.toLowerCase().includes("music") ||
+            activity.name?.toLowerCase().includes("tune")
         );
         
         const youtubeActivities = lanyardData.activities.filter(
@@ -126,7 +128,7 @@ export default function MusicActivity() {
           <div className="flex items-center text-base leading-snug gap-4">
             {lanyardData.activities.map((activity) => {
               const isMusicActivity =
-                activity.name?.toLowerCase().includes("music");
+                activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("tune");
               const isYoutubeActivity =
                 activity.name?.toLowerCase().includes("youtube");
 
