@@ -139,7 +139,7 @@ export default function MusicActivity() {
 
   return (
     <div className="mb-4">
-      {lanyardData ? (
+      {lanyardData && lanyardData.activities ? (
         hasMusicActivity ? (
           <div className="flex gap-2 items-center text-base leading-snug">
             {lanyardData.activities.map((activity) => {
@@ -147,13 +147,13 @@ export default function MusicActivity() {
                 activity.name?.toLowerCase().includes("youtube music") || activity.name?.toLowerCase().includes("music");
               const isYoutubeActivity =
                 activity.name?.toLowerCase().includes("youtube") && !activity.name?.toLowerCase().includes("music");
-
+      
               if (!isMusicActivity && !isYoutubeActivity) return null;
-
+      
               const startTimestamp = activity.timestamps?.start;
               const endTimestamp = activity.timestamps?.end;
               const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : 0;
-
+      
               return (
                 <div key={activity.id} className="text-sm text-white">
                   <div className="flex items-center gap-3">
