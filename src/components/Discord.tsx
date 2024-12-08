@@ -10,6 +10,18 @@ const statusColors: Record<string, string> = {
   dnd: "bg-rose-400",
 };
 
+const getThumbnailUrl = (imagePath: string) => {
+  if (!imagePath) return "/images/emptysong.jpg";
+  if (imagePath.includes("mp:external")) {
+    const imageUrl = imagePath.split("mp:external/")[1];
+    return `https://media.discordapp.net/external/${imageUrl}`;
+  } else if (imagePath.includes("mp:attachments")) {
+    const imageUrl = imagePath.split("attachments/")[1];
+    return `https://cdn.discordapp.com/attachments/${imageUrl}`;
+  }
+  return "/images/emptysong.jpg";
+};
+
 const getStatusColor = (status: string | undefined) => {
   if (!status) return "bg-gray-400";
   const str = statusColors[status];
@@ -123,7 +135,96 @@ export default function Discord() {
               : null}
           </span>
         </p>
+        <OtherActivities activities={otherActivities} />
       </div>
     </div>
+  );
+}
+
+// Activity types
+const activityTypes = [
+  "Playing",
+  "Streaming",
+  "Listening to",
+  "Watching",
+  "Custom Status: ",
+  "Competing in",
+];
+
+// Activity name for a given activity type
+const getActivityType = (type: number) => {
+  return activityTypes[type];
+};
+
+interface OtherActivitiesProps {
+  activities: any[] | undefined;
+}
+
+const getIconByActivityName = (name: string) => {
+  if (name.includes("Spotify")) {
+    return "simple-icons:spotify";
+  } else if (name.includes("YouTube Music")) {
+    return "simple-icons:youtubemusic";
+  } else if (name.includes("YouTube")) {
+    return "simple-icons:youtube";
+  } else if (name.includes("Twitch")) {
+    return "simple-icons:twitch";
+  } else {
+    return "mdi:music-note"; // Default music note icon
+  }
+};
+
+function OtherActivities({ activities }: OtherActivitiesProps) {
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <>
+      {activities?.map((activity) => (
+        <div key={activity.id} className="flex items-center gap-1 mb-3">
+          <div className="flex-shrink-0 relative">
+            {/* Activity Thumbnail */}
+            <Image
+              src={getThumbnailUrl(activity.assets?.large_image || "")}
+              alt="Activity Thumbnail"
+              className="w-5 h-5 object-cover object-center rounded-lg"
+              width={256}
+              height={256}
+            />
+          </div>
+
+          <div className="flex-1">
+            {/* Activity Type and Name */}
+            <p className="flex items-center gap-1">
+              <span className="opacity-80">{getActivityType(activity.type)}</span>
+              <span className="opacity-95">{activity.name}</span>
+            {/* Time for the activity */}
+            <span className="opacity-80">
+              for{" "}
+              {formatDistanceStrict(now, activity.timestamps?.start ?? activity.created_at)}
+            </span>
+            </p>
+
+            {/* Additional activity details */}
+            {activity.type === 2 && (
+              <div className="mt-1">
+                {activity.details && (
+                  <p className="opacity-80 flex items-center gap-2">
+                    {activity.state} – {activity.details}
+                  </p>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      ))}
+    </>
   );
 }
