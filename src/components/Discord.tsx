@@ -11,7 +11,7 @@ const statusColors: Record<string, string> = {
 };
 
 const getThumbnailUrl = (imagePath: string, applicationId?: string) => {
-  if (!imagePath && !applicationId) return "/images/emptysong.jpg";
+  if (!imagePath && !applicationId) return "/images/2872585.png";
 
   // If the applicationId and large_image are available, form the URL
   if (applicationId && imagePath) {
@@ -30,7 +30,7 @@ const getThumbnailUrl = (imagePath: string, applicationId?: string) => {
   }
 
   // Default fallback
-  return "/images/emptysong.jpg";
+  return "/images/2872585.png";
 };
 
 const getStatusColor = (status: string | undefined) => {
@@ -196,33 +196,37 @@ function OtherActivities({ activities }: OtherActivitiesProps) {
     return () => clearInterval(interval);
   }, []);
 
+  // Filter out activities where the name contains "YouTube"
+  const filteredActivities = activities?.filter(
+    (activity) => !activity.name.includes("YouTube")
+  );
+
   return (
     <>
-      {activities?.map((activity) => (
+      {filteredActivities?.map((activity) => (
         <div key={activity.id} className="flex items-center gap-1 mb-3">
           <div className="flex-shrink-0 relative">
             {/* Activity Thumbnail */}
             <Image
               src={getThumbnailUrl(activity.assets?.large_image || "", activity.application_id)}
               alt="Activity Thumbnail"
-              className="w-5 h-5 object-cover object-center rounded-lg"
+              className="w-5 h-5 object-cover object-center"
               width={256}
               height={256}
             />
           </div>
 
-            <div className="flex-1">
-              {/* Activity Type and Name */}
-              <p className="flex flex-wrap items-center gap-1">
-                <span className="opacity-80">{getActivityType(activity.type)}</span>
-                <span className="opacity-95">{activity.name}</span>
-                {/* Time for the activity */}
-                <span className="opacity-80">
-                  for{" "}
-                  {formatDistanceStrict(now, activity.timestamps?.start ?? activity.created_at)}
-                </span>
-              </p>
-
+          <div className="flex-1">
+            {/* Activity Type and Name */}
+            <p className="flex flex-wrap items-center gap-1">
+              <span className="opacity-80">{getActivityType(activity.type)}</span>
+              <span className="opacity-95">{activity.name}</span>
+              {/* Time for the activity */}
+              <span className="opacity-80">
+                for{" "}
+                {formatDistanceStrict(now, activity.timestamps?.start ?? activity.created_at)}
+              </span>
+            </p>
 
             {/* Additional activity details */}
             {activity.type === 2 && (
