@@ -1,13 +1,19 @@
+// components/Layout.tsx
 import Navbar from "./Navbar";
 import Transition from "./Transition";
+import Footer from "./Footer";
 
 export default function Layout({ children }: React.PropsWithChildren<{}>) {
-	return (
-		<div className="md:container md:px-0 mx-auto my-24 px-8 text-white text-xl">
-			<Navbar />
-			<main>
-				<Transition>{children}</Transition>
-			</main>
-		</div>
-	);
+  return (
+    <div className="min-h-screen flex flex-col">
+      <div className="md:container md:px-0 mx-auto px-8 text-white text-xl flex-grow">
+        <Navbar />
+        <main>
+          <Transition>{children}</Transition>
+        </main>
+        <Footer />
+      </div>
+      
+    </div>
+  );
 }
