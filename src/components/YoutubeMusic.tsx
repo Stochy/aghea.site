@@ -1,6 +1,17 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import formatDistanceStrict from "date-fns/formatDistanceStrict";
+
+// Activity types
+const activityTypes = [
+  "Playing",
+  "Streaming",
+  "Listening to",
+  "Watching",
+  "Custom Status: ",
+  "Competing in",
+];
 
 // Helper functions
 const getElapsedTime = (start: number, duration: number) => {
@@ -60,9 +71,18 @@ interface LanyardData {
 
 export default function MusicActivity() {
   const [lanyardData, setLanyardData] = useState<LanyardData | null>(null);
+  const [now, setNow] = useState(new Date());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setNow(new Date());
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasMusicActivity, setHasMusicActivity] = useState(false);
+  const [hasActivity, setHasActivity] = useState(false);
 
   useEffect(() => {
     const fetchLanyardData = async () => {
@@ -86,19 +106,16 @@ export default function MusicActivity() {
     const interval = setInterval(() => {
       let playing = false;
       if (lanyardData?.activities) {
-        const musicActivities = lanyardData.activities.filter(
+        const filteredActivities = lanyardData.activities.filter(
           (activity) =>
-            activity.name?.toLowerCase().includes("music")
-        );
-        
-        const youtubeActivities = lanyardData.activities.filter(
-          (activity) =>
+            activity.type === 0 ||
+            activity.name?.toLowerCase().includes("music") ||
             activity.name?.toLowerCase().includes("youtube")
         );
 
-        if (musicActivities.length > 0 || youtubeActivities.length > 0) {
+        if (filteredActivities.length > 0) {
           playing = true;
-          const activity = musicActivities.length > 0 ? musicActivities[0] : youtubeActivities[0];
+          const activity = filteredActivities[0];
           const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
 
@@ -113,54 +130,70 @@ export default function MusicActivity() {
           }
         }
       }
-      setHasMusicActivity(playing);
+      setHasActivity(playing);
     }, 1000);
 
     return () => clearInterval(interval);
   }, [lanyardData]);
 
+  if (!lanyardData || !lanyardData.activities || !hasActivity) {
+    return null; // Hide the component if no activity
+  }
+
   return (
     <div className="mb-4">
-      {lanyardData && lanyardData.activities ? (
-        hasMusicActivity ? (
-          <div className="flex items-center text-base leading-snug gap-4">
-            {lanyardData.activities.map((activity) => {
-              const isMusicActivity =
-                activity.name?.toLowerCase().includes("music");
-              const isYoutubeActivity =
-                activity.name?.toLowerCase().includes("youtube");
+      <div className="flex items-center text-base leading-snug gap-4">
+        {lanyardData.activities
+          .filter(
+            (activity) =>
+              activity.type === 0 ||
+              activity.name?.toLowerCase().includes("music") ||
+              activity.name?.toLowerCase().includes("youtube")
+          )
+          .map((activity) => {
+            const startTimestamp = activity.timestamps?.start;
+            const endTimestamp = activity.timestamps?.end;
+            const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : 0;
 
-              if (!isMusicActivity && !isYoutubeActivity) return null;
+            const isMusicOrYoutube =
+              activity.name?.toLowerCase().includes("music") ||
+              activity.name?.toLowerCase().includes("youtube");
 
-              const startTimestamp = activity.timestamps?.start;
-              const endTimestamp = activity.timestamps?.end;
-              const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : 0;
-
-              return (
-                <div key={activity.id} className="flex items-center gap-3">
-                  {/* Thumbnail */}
-                  <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
-                    {activity.assets?.large_image && (
-                      <Image
-                        src={getThumbnailUrl(activity.assets.large_image)}
-                        alt="Activity Thumbnail"
-                        className="w-full h-full object-cover object-center rounded-lg"
-                        width={256}
-                        height={256}
-                      />
-                    )}
-                  </div>
-
-                  {/* Activity details and state */}
-                  <div className="flex flex-col justify-between flex-1">
-                    <div className="flex items-center gap-1">
+            return (
+              <div key={activity.id} className="flex items-center gap-3">
+                <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
+                  {activity.assets?.large_image && (
+                    <Image
+                      src={getThumbnailUrl(activity.assets.large_image)}
+                      alt="Activity Thumbnail"
+                      className="w-full h-full object-cover object-center rounded-lg"
+                      width={256}
+                      height={256}
+                    />
+                  )}
+                </div>
+                <div className="flex-col justify-between">
+                  <div className="flex items-center gap-1">
+                    {isMusicOrYoutube && (
                       <Icon
                         icon={getActivityIcon(activity.name)}
                         width={24}
                         height={24}
                         className="opacity-80 w-4 h-4"
                       />
-                      <a className="text-white">{activity.name}</a>
+                    )}
+                    <span className="opacity-80">{activityTypes[activity.type] || "Unknown"}</span>{" "}
+                    <span className="opacity-95">{activity.name}</span>{" "}
+                    {!isMusicOrYoutube && activity.timestamps?.start && (
+                      <span className="opacity-80">
+                        for{" "}
+                        {formatDistanceStrict(
+                          now,
+                          activity.timestamps.start
+                        )}
+                      </span>
+                    )}
+                    {isMusicOrYoutube && (
                       <span className="ml-auto">
                         {isPlaying ? (
                           <Icon
@@ -174,120 +207,69 @@ export default function MusicActivity() {
                           />
                         )}
                       </span>
-                    </div>
-                    <div className="mt-2">
-                      {(activity.type === 2 || activity.type === 3) && (
-                        <div className="mt-1">
-                          {activity.details && (
-                            <p>
-                              <a
-                                className="opacity-80 border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.details}
-                              </a>{" "}
-                              <a className="opacity-60 border-[#fff4] transition hover:border-white">
-                                {!activity.state?.toLowerCase().includes("by") && " oleh "}
-                              </a>{" "}
-                              <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                        `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
-                                      )}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.state}
-                              </a>
-                            </p>
+                    )}
+                  </div>
+                  <div className="mt-2">
+                    <div className="mt-1">
+                      {activity.details && (
+                        <p>
+                          <a
+                            className="opacity-80 border-b border-[#fff4] transition hover:border-white"
+                            href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
+                              `${activity.details} ${activity.state || ""}`
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {activity.details}
+                          </a>{" "}
+                          {activity.state && (
+                            <a className="opacity-60 font-bold">{activity.state}</a>
                           )}
-                          {activity.assets?.large_text && (
-                            <p className="opacity-60">
-                              Album{" "}
-                              <a
-                                className="opacity-85 border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.assets.large_text} ${activity.details || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(activity.assets.large_text)}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.assets.large_text}
-                              </a>
-                            </p>
-                          )}
-                        </div>
+                        </p>
                       )}
-                      <div className="mt-2">
-                        {isPlaying && (
-                          <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
-                            <div
-                              className="block h-full bg-white"
-                              style={{
-                                width: `${(elapsedTime / duration) * 100}%`,
-                              }}
-                            />
-                          </div>
-                        )}
-                        {isPlaying && (
-                          <p className="text-xs opacity-60 mt-1">
-                            <span className="flex items-center text-sm">
-                              <span className="basis-full">
-                                {formatDuration(elapsedTime)}
-                              </span>
-                              <span className="basis-full text-right">
-                                {formatDuration(duration)}
-                              </span>
-                            </span>
-                          </p>
-                        )}
-                      </div>
+                      {activity.assets?.large_text && (
+                        <p className="opacity-60">
+                          Album{" "}
+                          <a
+                            className="opacity-85 border-b border-[#fff4] transition hover:border-white"
+                            href={`https://www.youtube.com/results?search_query=${encodeURIComponent(
+                              activity.assets.large_text
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            {activity.assets.large_text}
+                          </a>
+                        </p>
+                      )}
                     </div>
+                    {isMusicOrYoutube && isPlaying && (
+                      <>
+                        <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
+                          <div
+                            className="block h-full bg-white"
+                            style={{
+                              width: `${(elapsedTime / duration) * 100}%`,
+                            }}
+                          />
+                        </div>
+                        <p className="text-xs opacity-60 mt-1">
+                          <span className="flex items-center text-sm">
+                            <span className="basis-full">{formatDuration(elapsedTime)}</span>
+                            <span className="basis-full text-right">
+                              {formatDuration(duration)}
+                            </span>
+                          </span>
+                        </p>
+                      </>
+                    )}
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        ) : (
-          // No Activity Section
-          <div className="flex items-center">
-            <Icon
-              icon="akar-icons:music-album-fill"
-              className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative text-[#353535]"
-              width={256}
-              height={256}
-            />
-            <span className="ml-2 transition hover:border-white">
-              <p className="text-gray-300 text-sm">Tidak ada aktivitas Discord</p>
-              <Icon
-                icon="simple-icons:discord"
-                width={48}
-                height={48}
-                className="w-4 h-4 text-gray-300"
-              />
-            </span>
-          </div>
-        )
-      ) : null}
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 }
