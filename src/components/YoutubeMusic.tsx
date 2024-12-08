@@ -34,7 +34,7 @@ const getActivityIcon = (name: string) => {
   if (name.toLowerCase().includes("youtube music")) return "simple-icons:youtubemusic";
   if (name.toLowerCase().includes("youtube")) return "simple-icons:youtube";
   if (name.toLowerCase().includes("apple")) return "simple-icons:applemusic";
-  return "akar-icons:music-album-fill"; // Default music icon
+  return "akar-icons:music-album-fill";
 };
 
 interface Activity {
@@ -58,7 +58,6 @@ interface LanyardData {
   discord_status?: string;
 }
 
-// Component
 export default function MusicActivity() {
   const [lanyardData, setLanyardData] = useState<LanyardData | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
@@ -108,29 +107,7 @@ export default function MusicActivity() {
             setElapsedTime(0);
           }
         }
-
-        const youtubeActivities = lanyardData.activities.filter(
-          (activity) => activity.name?.toLowerCase().includes("youtube") && !activity.name?.toLowerCase().includes("music")
-        );
-
-        if (youtubeActivities.length > 0) {
-          playing = true;
-          const activity = youtubeActivities[0];
-          const startTimestamp = activity.timestamps?.start;
-          const endTimestamp = activity.timestamps?.end;
-
-          if (startTimestamp && endTimestamp) {
-            const duration = endTimestamp - startTimestamp;
-            const currentElapsedTime = getElapsedTime(startTimestamp, duration);
-            setElapsedTime(currentElapsedTime);
-            setIsPlaying(currentElapsedTime < duration);
-          } else {
-            setIsPlaying(false);
-            setElapsedTime(0);
-          }
-        }
       }
-
       setHasMusicActivity(playing);
     }, 1000);
 
@@ -141,141 +118,120 @@ export default function MusicActivity() {
     <div className="mb-4">
       {lanyardData && lanyardData.activities ? (
         hasMusicActivity ? (
-          <div className="flex gap-2 items-center text-base leading-snug">
+          <div className="flex items-center text-base leading-snug gap-4">
             {lanyardData.activities.map((activity) => {
               const isMusicActivity =
                 activity.name?.toLowerCase().includes("youtube music") || activity.name?.toLowerCase().includes("music");
               const isYoutubeActivity =
                 activity.name?.toLowerCase().includes("youtube") && !activity.name?.toLowerCase().includes("music");
-      
+
               if (!isMusicActivity && !isYoutubeActivity) return null;
-      
+
               const startTimestamp = activity.timestamps?.start;
               const endTimestamp = activity.timestamps?.end;
               const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : 0;
-      
+
               return (
-                <div key={activity.id} className="text-sm text-white">
-                  <div className="flex items-center gap-3">
+                <div key={activity.id} className="flex w-full gap-1 items-center">
+                  {/* Thumbnail */}
+                  <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
                     {activity.assets?.large_image && (
                       <Image
                         src={getThumbnailUrl(activity.assets.large_image)}
                         alt="Activity Thumbnail"
-                        className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
-                        width={65}
-                        height={65}
+                        className="w-full h-full object-cover object-center rounded-lg"
+                        width={256}
+                        height={256}
                       />
                     )}
-                    <div className="flex flex-col justify-between flex-1">
-                      <p className="truncate whitespace-nowrap">
-                        <span className="opacity-95 flex items-center gap-2">
-                          <Icon
-                            icon={getActivityIcon(activity.name)}
-                            width={48}
-                            height={48}
-                            className="opacity-80 w-4 h-4"
-                          />
-                          {activity.name}
-                          <span className="ml-auto">
-                            {isPlaying ? (
-                              <Icon
-                                icon="line-md:play-to-pause-transition"
-                                className="text-white h-5 w-5"
-                              />
-                            ) : (
-                              <Icon
-                                icon="line-md:pause-to-play-transition"
-                                className="text-white h-5 w-5"
-                              />
-                            )}
-                          </span>
-                        </span>
-                      </p>
-                      {(activity.type === 2 || activity.type === 3) && (
-                        <div className="mt-1">
-                          {activity.details && (
-                            <p>
-                              <a
-                                className="opacity-80 border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.details}
-                              </a>{" "}
-                              <a className="opacity-60 border-[#fff4] transition hover:border-white">
-                                {!activity.state?.toLowerCase().includes("by") && " oleh "}
-                              </a>{" "}
-                              <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                        `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
-                                      )}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.state}
-                              </a>
-                            </p>
-                          )}
-                          {activity.assets?.large_text && (
-                            <p className="opacity-60">
-                              Album{" "}
-                              <a
-                                className="opacity-85 border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.assets.large_text} ${activity.details || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(activity.assets.large_text)}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.assets.large_text}
-                              </a>
-                            </p>
-                          )}
-                        </div>
-                      )}
-                      <div className="mt-2">
-                        {isPlaying && (
-                          <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
-                            <div
-                              className="block h-full bg-white"
-                              style={{
-                                width: `${(elapsedTime / duration) * 100}%`,
-                              }}
-                            />
-                          </div>
+                  </div>
+
+                  {/* Activity details */}
+                  <div className="flex flex-col ml-2">
+                    {(activity.type === 2 || activity.type === 3) && (
+                      <div className="mt-1">
+                        {activity.details && (
+                          <p>
+                            <a
+                              className="opacity-80 border-b border-[#fff4] transition hover:border-white"
+                              href={
+                                isMusicActivity
+                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                      `${activity.details} ${activity.state || ''}`
+                                    )}`
+                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                      `${activity.details} ${activity.state || ''}`
+                                    )}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {activity.details}
+                            </a>{" "}
+                            <a className="opacity-60 border-[#fff4] transition hover:border-white">
+                              {!activity.state?.toLowerCase().includes("by") && " oleh "}
+                            </a>{" "}
+                            <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
+                              href={
+                                isMusicActivity
+                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                      `${activity.details} ${activity.state || ''}`
+                                    )}`
+                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                      `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
+                                    )}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {activity.state}
+                            </a>
+                          </p>
                         )}
-                        {isPlaying && (
-                          <p className="text-xs opacity-60 mt-1">
-                            <span className="flex items-center text-sm">
-                              <span className="basis-full">
-                                {formatDuration(elapsedTime)}
-                              </span>
-                              <span className="basis-full text-right">
-                                {formatDuration(duration)}
-                              </span>
-                            </span>
+                        {activity.assets?.large_text && (
+                          <p className="opacity-60">
+                            Album{" "}
+                            <a
+                              className="opacity-85 border-b border-[#fff4] transition hover:border-white"
+                              href={
+                                isMusicActivity
+                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                      `${activity.assets.large_text} ${activity.details || ''}`
+                                    )}`
+                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(activity.assets.large_text)}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {activity.assets.large_text}
+                            </a>
                           </p>
                         )}
                       </div>
+                    )}
+                    <div className="mt-2">
+                      {isPlaying && (
+                        <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
+                          <div
+                            className="block h-full bg-white"
+                            style={{
+                              width: `${(elapsedTime / duration) * 100}%`,
+                            }}
+                          />
+                        </div>
+                      )}
+                      {isPlaying && (
+                        <p className="text-xs opacity-60 mt-1">
+                          <span className="flex items-center text-sm">
+                            <span className="basis-full">
+                              {formatDuration(elapsedTime)}
+                            </span>
+                            <span className="basis-full text-right">
+                              {formatDuration(duration)}
+                            </span>
+                          </span>
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -283,22 +239,20 @@ export default function MusicActivity() {
             })}
           </div>
         ) : (
-          <div className="flex items-center">
-            <Icon
-              icon="akar-icons:music-album-fill"
-              className="w-16 h-16 object-cover object-center rounded-lg text-[#353535]"
-              width={65}
-              height={65}
-            />
-            <span className="ml-2 transition hover:border-white">
-              <p className="text-gray-300 text-sm">Tidak ada aktivitas Discord</p>
+          // No Activity Section
+          <div className="flex w-full gap-1 items-center">
+            {/* Default Thumbnail */}
+            <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
               <Icon
-                icon="simple-icons:discord"
-                width={48}
-                height={48}
-                className="w-4 h-4 text-gray-300"
+                icon="akar-icons:music-album-fill"
+                className="text-[#353535] w-full h-full object-cover object-center rounded-lg"
+                width={256}
+                height={256}
               />
-            </span>
+            </div>
+
+            {/* No Activity Text */}
+            <p className="text-gray-400 text-lg">No music activity detected</p>
           </div>
         )
       ) : null}
