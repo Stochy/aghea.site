@@ -276,7 +276,7 @@ export default function MusicActivity() {
             </div>
 
             {/* No Activity Text */}
-            <p className="text-gray-400 text-lg">No music activity detected</p>
+            <p className="text-gray-400 text-lg">Tidak ada aktivitas Discord</p>
           </div>
         )
       ) : null}
