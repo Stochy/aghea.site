@@ -88,12 +88,17 @@ export default function MusicActivity() {
       if (lanyardData?.activities) {
         const musicActivities = lanyardData.activities.filter(
           (activity) =>
-            activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("youtube music")
+            activity.name?.toLowerCase().includes("music")
+        );
+        
+        const youtubeActivities = lanyardData.activities.filter(
+          (activity) =>
+            activity.name?.toLowerCase().includes("youtube")
         );
 
-        if (musicActivities.length > 0) {
+        if (musicActivities.length > 0 || youtubeActivities.length > 0) {
           playing = true;
-          const activity = musicActivities[0];
+          const activity = musicActivities.length > 0 ? musicActivities[0] : youtubeActivities[0];
           const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
 
@@ -121,9 +126,9 @@ export default function MusicActivity() {
           <div className="flex items-center text-base leading-snug gap-4">
             {lanyardData.activities.map((activity) => {
               const isMusicActivity =
-                activity.name?.toLowerCase().includes("youtube music") || activity.name?.toLowerCase().includes("music");
+                activity.name?.toLowerCase().includes("music");
               const isYoutubeActivity =
-                activity.name?.toLowerCase().includes("youtube") && !activity.name?.toLowerCase().includes("music");
+                activity.name?.toLowerCase().includes("youtube");
 
               if (!isMusicActivity && !isYoutubeActivity) return null;
 
