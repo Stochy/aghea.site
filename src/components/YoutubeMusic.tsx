@@ -34,7 +34,7 @@ const getActivityIcon = (name: string) => {
   if (name.toLowerCase().includes("youtube music")) return "simple-icons:youtubemusic";
   if (name.toLowerCase().includes("youtube")) return "simple-icons:youtube";
   if (name.toLowerCase().includes("apple")) return "simple-icons:applemusic";
-  return "simple-icons:music"; // Default music icon
+  return "akar-icons:music-album-fill"; // Default music icon
 };
 
 interface Activity {
@@ -63,6 +63,7 @@ export default function MusicActivity() {
   const [lanyardData, setLanyardData] = useState<LanyardData | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [hasMusicActivity, setHasMusicActivity] = useState(false);
 
   useEffect(() => {
     const fetchLanyardData = async () => {
@@ -84,13 +85,15 @@ export default function MusicActivity() {
 
   useEffect(() => {
     const interval = setInterval(() => {
+      let playing = false;
       if (lanyardData?.activities) {
         const musicActivities = lanyardData.activities.filter(
           (activity) =>
             activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("youtube music")
         );
 
-        if (musicActivities?.length > 0) {
+        if (musicActivities.length > 0) {
+          playing = true;
           const activity = musicActivities[0];
           const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
@@ -107,10 +110,11 @@ export default function MusicActivity() {
         }
 
         const youtubeActivities = lanyardData.activities.filter(
-          (activity) => activity.name?.toLowerCase().includes("youtube") && !activity.name.toLowerCase().includes("music")
+          (activity) => activity.name?.toLowerCase().includes("youtube") && !activity.name?.toLowerCase().includes("music")
         );
 
-        if (youtubeActivities?.length > 0) {
+        if (youtubeActivities.length > 0) {
+          playing = true;
           const activity = youtubeActivities[0];
           const startTimestamp = activity.timestamps?.start;
           const endTimestamp = activity.timestamps?.end;
@@ -126,6 +130,8 @@ export default function MusicActivity() {
           }
         }
       }
+
+      setHasMusicActivity(playing);
     }, 1000);
 
     return () => clearInterval(interval);
@@ -134,7 +140,7 @@ export default function MusicActivity() {
   return (
     <div className="mb-4">
       {lanyardData ? (
-        lanyardData.activities?.length ? (
+        hasMusicActivity ? (
           <div className="flex gap-2 items-center text-base leading-snug">
             {lanyardData.activities.map((activity) => {
               const isMusicActivity =
@@ -142,7 +148,6 @@ export default function MusicActivity() {
               const isYoutubeActivity =
                 activity.name?.toLowerCase().includes("youtube") && !activity.name?.toLowerCase().includes("music");
 
-              // Only show relevant activities
               if (!isMusicActivity && !isYoutubeActivity) return null;
 
               const startTimestamp = activity.timestamps?.start;
@@ -278,11 +283,26 @@ export default function MusicActivity() {
             })}
           </div>
         ) : (
-          <div className="text-sm text-gray-400">No Music activities found.</div>
+          <div className="flex items-center text-base leading-snug">
+            <Image
+              src="/images/emptysong.jpg"
+              alt="No activity thumbnail"
+              className="w-16 h-16 object-cover object-center rounded-lg"
+              width={80}
+              height={80}
+            />
+            <span className="ml-2 transition hover:border-white">
+              <p className="text-gray-300 text-sm">No Discord Activity Playing</p>
+              <Icon
+                icon="simple-icons:discord"
+                width={48}
+                height={48}
+                className="w-4 h-4 text-gray-300"
+              />
+            </span>
+          </div>
         )
-      ) : (
-        <div className="w-32 opacity-80"></div>
-      )}
+      ) : null}
     </div>
   );
 }
