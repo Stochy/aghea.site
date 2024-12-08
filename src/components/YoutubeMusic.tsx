@@ -132,9 +132,9 @@ export default function MusicActivity() {
               const duration = startTimestamp && endTimestamp ? endTimestamp - startTimestamp : 0;
 
               return (
-                <div key={activity.id} className="flex w-full gap-1 items-center">
+                <div key={activity.id} className="flex items-center gap-3">
                   {/* Thumbnail */}
-                  <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+                  <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
                     {activity.assets?.large_image && (
                       <Image
                         src={getThumbnailUrl(activity.assets.large_image)}
@@ -146,92 +146,116 @@ export default function MusicActivity() {
                     )}
                   </div>
 
-                  {/* Activity details */}
-                  <div className="flex flex-col ml-2">
-                    {(activity.type === 2 || activity.type === 3) && (
-                      <div className="mt-1">
-                        {activity.details && (
-                          <p>
-                            <a
-                              className="opacity-80 border-b border-[#fff4] transition hover:border-white"
-                              href={
-                                isMusicActivity
-                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                      `${activity.details} ${activity.state || ''}`
-                                    )}`
-                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                      `${activity.details} ${activity.state || ''}`
-                                    )}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {activity.details}
-                            </a>{" "}
-                            <a className="opacity-60 border-[#fff4] transition hover:border-white">
-                              {!activity.state?.toLowerCase().includes("by") && " oleh "}
-                            </a>{" "}
-                            <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
-                              href={
-                                isMusicActivity
-                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                      `${activity.details} ${activity.state || ''}`
-                                    )}`
-                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                      `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
-                                    )}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {activity.state}
-                            </a>
-                          </p>
+                  {/* Activity details and state */}
+                  <div className="flex flex-col justify-between flex-1">
+                    <div className="flex items-center gap-1">
+                      <Icon
+                        icon={getActivityIcon(activity.name)}
+                        width={24}
+                        height={24}
+                        className="opacity-80 w-4 h-4"
+                      />
+                      <a className="text-white">{activity.name}</a>
+                      <span className="ml-auto">
+                        {isPlaying ? (
+                          <Icon
+                            icon="line-md:play-to-pause-transition"
+                            className="text-white h-5 w-5"
+                          />
+                        ) : (
+                          <Icon
+                            icon="line-md:pause-to-play-transition"
+                            className="text-white h-5 w-5"
+                          />
                         )}
-                        {activity.assets?.large_text && (
-                          <p className="opacity-60">
-                            Album{" "}
-                            <a
-                              className="opacity-85 border-b border-[#fff4] transition hover:border-white"
-                              href={
-                                isMusicActivity
-                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                      `${activity.assets.large_text} ${activity.details || ''}`
-                                    )}`
-                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(activity.assets.large_text)}`
-                              }
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {activity.assets.large_text}
-                            </a>
+                      </span>
+                    </div>
+                    <div className="mt-2">
+                      {(activity.type === 2 || activity.type === 3) && (
+                        <div className="mt-1">
+                          {activity.details && (
+                            <p>
+                              <a
+                                className="opacity-80 border-b border-[#fff4] transition hover:border-white"
+                                href={
+                                  isMusicActivity
+                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                        `${activity.details} ${activity.state || ''}`
+                                      )}`
+                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                        `${activity.details} ${activity.state || ''}`
+                                      )}`
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {activity.details}
+                              </a>{" "}
+                              <a className="opacity-60 border-[#fff4] transition hover:border-white">
+                                {!activity.state?.toLowerCase().includes("by") && " oleh "}
+                              </a>{" "}
+                              <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
+                                href={
+                                  isMusicActivity
+                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                        `${activity.details} ${activity.state || ''}`
+                                      )}`
+                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                        `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
+                                      )}`
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {activity.state}
+                              </a>
+                            </p>
+                          )}
+                          {activity.assets?.large_text && (
+                            <p className="opacity-60">
+                              Album{" "}
+                              <a
+                                className="opacity-85 border-b border-[#fff4] transition hover:border-white"
+                                href={
+                                  isMusicActivity
+                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                        `${activity.assets.large_text} ${activity.details || ''}`
+                                      )}`
+                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(activity.assets.large_text)}`
+                                }
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {activity.assets.large_text}
+                              </a>
+                            </p>
+                          )}
+                        </div>
+                      )}
+                      <div className="mt-2">
+                        {isPlaying && (
+                          <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
+                            <div
+                              className="block h-full bg-white"
+                              style={{
+                                width: `${(elapsedTime / duration) * 100}%`,
+                              }}
+                            />
+                          </div>
+                        )}
+                        {isPlaying && (
+                          <p className="text-xs opacity-60 mt-1">
+                            <span className="flex items-center text-sm">
+                              <span className="basis-full">
+                                {formatDuration(elapsedTime)}
+                              </span>
+                              <span className="basis-full text-right">
+                                {formatDuration(duration)}
+                              </span>
+                            </span>
                           </p>
                         )}
                       </div>
-                    )}
-                    <div className="mt-2">
-                      {isPlaying && (
-                        <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
-                          <div
-                            className="block h-full bg-white"
-                            style={{
-                              width: `${(elapsedTime / duration) * 100}%`,
-                            }}
-                          />
-                        </div>
-                      )}
-                      {isPlaying && (
-                        <p className="text-xs opacity-60 mt-1">
-                          <span className="flex items-center text-sm">
-                            <span className="basis-full">
-                              {formatDuration(elapsedTime)}
-                            </span>
-                            <span className="basis-full text-right">
-                              {formatDuration(duration)}
-                            </span>
-                          </span>
-                        </p>
-                      )}
                     </div>
                   </div>
                 </div>
@@ -240,7 +264,7 @@ export default function MusicActivity() {
           </div>
         ) : (
           // No Activity Section
-          <div className="flex w-full gap-1 items-center">
+          <div className="flex gap-2 items-center">
             {/* Default Thumbnail */}
             <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
               <Icon
