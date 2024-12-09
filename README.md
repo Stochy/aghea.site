@@ -50,9 +50,17 @@ cd app && yarn dev
 
 ### Discord ID Setup
 - Read: [Setup](https://ad-link-docs.vercel.app/frontend#add-discord-status), and **YOU MUST** join [Lanyard Discord Server](https://discord.gg/lanyard).
+- Take a look to [/src/pages/api/lanyard.js](/src/pages/api/lanyard.js).
 
 ### Spotify Setup
 - Use [ADLink Spotify](https://github.com/agcrisbp/Spotify-ADLink).
+- If you're lazy, add the following code to [/src/pages/index.tsx](/src/pages/index.tsx):
+
+```tsx
+import Spo from "../components/Spo";
+
+<Spo />
+```
 
 ### Domain Setup
 - Make sure your domain is already connected with [Vercel Nameservers](https://vercel.com/docs/projects/domains/working-with-nameservers), then change the [vercel.json](/vercel.json).
