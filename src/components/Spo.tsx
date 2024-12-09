@@ -32,7 +32,7 @@ export default function Spo() {
     try {
       const response = await fetch("/api/lanyard");
       const { data } = await response.json();
-      if (data.listening_to_spotify) {
+      if (data.listening_to_spotify && data.spotify) {
         setSpotifyData(data.spotify);
       } else {
         setSpotifyData(null);
@@ -50,12 +50,14 @@ export default function Spo() {
   }, []);
 
   useEffect(() => {
-    if (spotifyData && spotifyData.timestamps) {
+    if (spotifyData?.timestamps) { // Optional chaining to ensure timestamps is not null
       const interval = setInterval(() => {
         const now = Date.now();
-        const elapsed = now - spotifyData.timestamps.start;
-        setElapsedTime(Math.min(elapsed, spotifyData.timestamps.end - spotifyData.timestamps.start));
-        setIsPlaying(elapsed < spotifyData.timestamps.end - spotifyData.timestamps.start);
+        if (spotifyData.timestamps) { // Double check that timestamps is not null
+          const elapsed = now - spotifyData.timestamps.start;
+          setElapsedTime(Math.min(elapsed, spotifyData.timestamps.end - spotifyData.timestamps.start));
+          setIsPlaying(elapsed < spotifyData.timestamps.end - spotifyData.timestamps.start);
+        }
       }, 1000);
       return () => clearInterval(interval);
     }
