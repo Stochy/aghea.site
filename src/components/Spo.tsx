@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Icon } from "@iconify/react";
+import useSWR from "swr";
 
 interface SpotifyData {
   song: string;
@@ -14,6 +15,27 @@ interface SpotifyData {
   } | null;
 }
 
+interface Artist {
+  id: string;
+  name: string;
+  external_urls: {
+    spotify: string;
+  };
+}
+
+interface NowPlayingData {
+  track: {
+    name: string;
+    artists: Artist[];
+    album: {
+      images: { url: string }[];
+      external_urls: { spotify: string };
+      name: string;
+    };
+    external_urls: { spotify: string };
+  };
+}
+
 const formatDuration = (ms: number) => {
   const hours = Math.floor(ms / 3600000);
   const minutes = Math.floor((ms % 3600000) / 60000);
@@ -23,37 +45,33 @@ const formatDuration = (ms: number) => {
     : `${minutes}:${seconds.toString().padStart(2, "0")}`;
 };
 
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
 export default function Spo() {
   const [spotifyData, setSpotifyData] = useState<SpotifyData | null>(null);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  
+  const { data: lanyardData } = useSWR("/api/lanyard", fetcher, { refreshInterval: 5000 });
+  const { data: nowPlayingData } = useSWR("/api/nowPlaying", fetcher, { refreshInterval: 5000 });
 
   const fetchLanyardData = async () => {
-    try {
-      const response = await fetch("/api/lanyard");
-      const { data } = await response.json();
-      if (data.listening_to_spotify && data.spotify) {
-        setSpotifyData(data.spotify);
-      } else {
-        setSpotifyData(null);
-      }
-    } catch (error) {
-      console.error("Error fetching Lanyard data:", error);
+    if (lanyardData?.data.listening_to_spotify && lanyardData?.data.spotify) {
+      setSpotifyData(lanyardData.data.spotify);
+    } else {
       setSpotifyData(null);
     }
   };
 
   useEffect(() => {
     fetchLanyardData();
-    const interval = setInterval(fetchLanyardData, 5000);
-    return () => clearInterval(interval);
-  }, []);
+  }, [lanyardData]);
 
   useEffect(() => {
-    if (spotifyData?.timestamps) { // Optional chaining to ensure timestamps is not null
+    if (spotifyData?.timestamps) { 
       const interval = setInterval(() => {
         const now = Date.now();
-        if (spotifyData.timestamps) { // Double check that timestamps is not null
+        if (spotifyData.timestamps) { 
           const elapsed = now - spotifyData.timestamps.start;
           setElapsedTime(Math.min(elapsed, spotifyData.timestamps.end - spotifyData.timestamps.start));
           setIsPlaying(elapsed < spotifyData.timestamps.end - spotifyData.timestamps.start);
@@ -63,7 +81,90 @@ export default function Spo() {
     }
   }, [spotifyData]);
 
-  if (!spotifyData || !spotifyData.timestamps) return null;
+  if (!spotifyData || !spotifyData.timestamps) {
+    // Show last listened to Spotify song if Lanyard integration is not active
+    if (lanyardData?.data.listening_to_spotify === false && nowPlayingData?.track) {
+      return (
+        <div className="flex gap-2 items-center text-base leading-snug">
+          <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+            <Image
+              src={nowPlayingData.track.album.images[0]?.url ?? "/images/emptysong.jpg"}
+              alt={`Album art for ${nowPlayingData.track.name}`}
+              width={256}
+              height={256}
+              className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
+            />
+          </div>
+          <div className="basis-full">
+            <p>
+              <a
+                href={nowPlayingData.track.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold border-b border-[#fff4] transition hover:border-white"
+              >
+                {nowPlayingData.track.name}
+              </a>{" "}
+              oleh{" "}
+              {nowPlayingData.track.artists.map((artist: Artist, i: number) => (
+                <span key={artist.id}>
+                  <a
+                    href={artist.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="border-b border-[#fff4] transition hover:border-white"
+                  >
+                    {artist.name}
+                  </a>
+                  {i < nowPlayingData.track.artists.length - 1 ? ", " : null}
+                </span>
+              ))}
+            </p>
+            <p className="opacity-80">
+              Album{" "}
+              <a
+                href={nowPlayingData.track.album.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-b border-[#fff4] transition hover:border-white"
+              >
+                {nowPlayingData.track.album.name}
+              </a>
+            </p>
+            <p className="opacity-80 flex items-center gap-1">
+              <span className="w-4 h-4">
+                <Icon icon="simple-icons:spotify" width={48} height={48} className="w-4 h-4" />
+              </span>
+              Terakhir diputar di Spotify
+            </p>
+          </div>
+        </div>
+      );
+    }
+    // Show "Offline" message if no data available
+    return (
+      <div className="flex gap-2 items-center text-base leading-snug">
+        <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+          <Image
+            src="/images/emptysong.jpg"
+            alt="Offline Image"
+            width={256}
+            height={256}
+            className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
+          />
+        </div>
+        <div className="basis-full">
+          <p className="opacity-80">Offline</p>
+          <p className="opacity-80 flex items-center gap-1">
+            <span className="w-4 h-4">
+              <Icon icon="simple-icons:spotify" width={48} height={48} className="w-4 h-4" />
+            </span>
+            Spotify
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const duration = spotifyData.timestamps.end - spotifyData.timestamps.start;
   const trackUrl = `https://open.spotify.com/track/${spotifyData.track_id}`;
