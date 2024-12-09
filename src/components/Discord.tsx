@@ -64,8 +64,16 @@ export default function Discord() {
         setLoading(false);
       }
     };
-
+  
+    // Fetch the initial data
     fetchData();
+  
+    // Set up polling every 5 seconds (5000ms)
+    const interval = setInterval(() => {
+      fetchData();
+    }, 5000);
+  
+    return () => clearInterval(interval); // Clean up the interval when the component unmounts
   }, []);
 
   if (loading) return <div></div>;
