@@ -3,6 +3,11 @@ import Image from "next/image";
 import { Icon } from "@iconify/react";
 import useSWR from "swr";
 
+import type {
+	NowPlayingResponseError,
+	NowPlayingResponseSuccess
+} from "../pages/api/nowPlaying";
+
 interface SpotifyData {
   song: string;
   artist: string;
