@@ -46,10 +46,10 @@ export default function Spo() {
   
   const { data: lanyardData } = useSWR("/api/lanyard", fetcher, { refreshInterval: 5000 });
   const { data: nowPlayingData } = useSWR<NowPlayingResponseSuccess, NowPlayingResponseError>(
-		"/api/nowPlaying",
-		fetcher,
-		{ refreshInterval: 5000 }
-	);
+  		"/api/nowPlaying",
+  		fetcher,
+  		{ refreshInterval: 5000 }
+  	);
 
   const fetchLanyardData = async () => {
     if (lanyardData?.data.listening_to_spotify && lanyardData?.data.spotify) {
@@ -86,14 +86,14 @@ export default function Spo() {
 
     const interval = setInterval(() => {
       setTime(
-        nowPlayingData.isPaused
+        nowPlayingData?.isPaused
           ? nowPlayingData.progessMs
           : Math.min(
               nowPlayingData.progessMs + Date.now() - started,
-              nowPlayingData.track.duration_ms
+              nowPlayingData.track?.duration_ms ?? 0
             )
       );
-    }, 100);
+		}, 100);
 
     return () => clearInterval(interval);
   }, [nowPlayingData]);
@@ -105,8 +105,8 @@ export default function Spo() {
         <div className="flex gap-2 items-center text-base leading-snug">
           <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
             <Image
-              src={nowPlayingData.track.album.images[0]?.url ?? "/images/emptysong.jpg"}
-              alt={`Album art for ${nowPlayingData.track.name}`}
+              src={nowPlayingData.track?.album.images[0]?.url ?? "/images/emptysong.jpg"}
+              alt={`Album art for ${nowPlayingData.track?.name}`}
               width={256}
               height={256}
               className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
@@ -115,15 +115,15 @@ export default function Spo() {
           <div className="basis-full">
             <p>
               <a
-                href={nowPlayingData.track.external_urls.spotify}
+                href={nowPlayingData.track?.external_urls.spotify}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-bold border-b border-[#fff4] transition hover:border-white"
               >
-                {nowPlayingData.track.name}
+                {nowPlayingData.track?.name}
               </a>{" "}
               oleh{" "}
-              {nowPlayingData.track.artists.map((artist: Artist, i: number) => (
+              {nowPlayingData.track?.artists?.map((artist: Artist, i: number) => (
                 <span key={artist.id}>
                   <a
                     href={artist.external_urls.spotify}
@@ -133,19 +133,19 @@ export default function Spo() {
                   >
                     {artist.name}
                   </a>
-                  {i < nowPlayingData.track.artists.length - 1 ? ", " : null}
+                  {i < (nowPlayingData.track?.artists?.length ?? 0) - 1 ? ", " : null}
                 </span>
               ))}
             </p>
             <p className="opacity-80">
               Album{" "}
               <a
-                href={nowPlayingData.track.album.external_urls.spotify}
+                href={nowPlayingData.track?.album.external_urls.spotify}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="border-b border-[#fff4] transition hover:border-white"
               >
-                {nowPlayingData.track.album.name}
+                {nowPlayingData.track?.album.name}
               </a>
             </p>
           {nowPlayingData?.isPlayingNow && nowPlayingData.track ? (
@@ -155,7 +155,7 @@ export default function Spo() {
 									className="block h-full bg-white"
 									style={{
 										width: `${
-											(time! / nowPlayingData.track.duration_ms) *
+											(time! / nowPlayingData.track?.duration_ms) *
 											100
 										}%`
 									}}
@@ -173,7 +173,7 @@ export default function Spo() {
 									)}
 								</span>
 								<span className="basis-full text-right">
-									{formatDuration(nowPlayingData.track.duration_ms)}
+									{formatDuration(nowPlayingData.track?.duration_ms)}
 								</span>
 							</span>
 						</span>
