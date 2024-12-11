@@ -7,7 +7,6 @@ import { Clock } from "../components/Clock";
 import Discord from "../components/Discord";
 import YoutubeMusic from "../components/YoutubeMusic";
 import GenericMeta from "../components/GenericMeta";
-import Spo from "../components/Spo";
 import Spotify from "../components/Spotify";
 import { socials } from "../data/socials";
 import { Icon } from '@iconify/react';
@@ -65,7 +64,7 @@ export default function Home({
 
 			<Discord />
 			<YoutubeMusic />
-			<Spo />
+			<Spotify />
 		</>
 	);
 }
