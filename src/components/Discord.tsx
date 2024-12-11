@@ -12,6 +12,12 @@ const statusColors: Record<string, string> = {
 
 const getThumbnailUrl = (imagePath: string, applicationId?: string) => {
   if (!imagePath && !applicationId) return "/images/2872585.png";
+  
+  // Handle Spotify-specific images
+  if (imagePath.startsWith("spotify:")) {
+    const spotifyImageId = imagePath.split(":")[1];
+    return `https://i.scdn.co/image/${spotifyImageId}`;
+  }
 
   // If the applicationId and large_image are available, form the URL
   if (applicationId && imagePath) {
