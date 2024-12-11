@@ -7,7 +7,7 @@ export default function Footer() {
       <p className="text-sm opacity-75 flex justify-center items-center gap-2">
         Powered by{' '}
         <a
-          href="https://github.com/agcrisbp/aghea.site"
+          href="https://github.com/agcrisbp/AD-Portfolio"
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center gap-2"
