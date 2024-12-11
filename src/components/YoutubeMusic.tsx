@@ -34,6 +34,7 @@ const getActivityIcon = (name: string) => {
   if (name.toLowerCase().includes("youtube music")) return "simple-icons:youtubemusic";
   if (name.toLowerCase().includes("youtube")) return "simple-icons:youtube";
   if (name.toLowerCase().includes("tune")) return "akar-icons:music";
+  if (name.toLowerCase().includes("spotify")) return "simple-icons:podcastaddict";
   if (name.toLowerCase().includes("apple")) return "simple-icons:applemusic";
   return "streamline:entertainment-earpods-airpods-audio-earpods-music-earbuds-true-wireless";
 };
@@ -51,6 +52,7 @@ interface Activity {
   assets?: {
     large_image?: string;
     large_text?: string;
+    small_text?: string;
   };
 }
 
@@ -89,8 +91,7 @@ export default function MusicActivity() {
       if (lanyardData?.activities) {
         const musicActivities = lanyardData.activities.filter(
           (activity) =>
-            activity.name?.toLowerCase().includes("music") ||
-            activity.name?.toLowerCase().includes("tune")
+            activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("tune") || activity.assets?.small_text?.toLowerCase().includes("spotify")
         );
         
         const youtubeActivities = lanyardData.activities.filter(
@@ -128,7 +129,7 @@ export default function MusicActivity() {
           <div className="flex items-center text-base leading-snug gap-4">
             {lanyardData.activities.map((activity) => {
               const isMusicActivity =
-                activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("tune");
+                activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("tune") || activity.assets?.small_text?.toLowerCase().includes("spotify");
               const isYoutubeActivity =
                 activity.name?.toLowerCase().includes("youtube");
 
