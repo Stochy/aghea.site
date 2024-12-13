@@ -34,7 +34,7 @@ const getActivityIcon = (name: string) => {
   if (name.toLowerCase().includes("youtube music")) return "simple-icons:youtubemusic";
   if (name.toLowerCase().includes("youtube")) return "simple-icons:youtube";
   if (name.toLowerCase().includes("tune")) return "akar-icons:music";
-  if (name.toLowerCase().includes("spotify")) return "simple-icons:podcastaddict";
+  if (name.toLowerCase().includes("spotify")) return "simple-icons:spotify";
   if (name.toLowerCase().includes("apple")) return "simple-icons:applemusic";
   return "streamline:entertainment-earpods-airpods-audio-earpods-music-earbuds-true-wireless";
 };
