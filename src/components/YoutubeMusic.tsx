@@ -192,6 +192,10 @@ export default function MusicActivity() {
                                   ? `https://podcasts.apple.com/search?term=${encodeURIComponent(
                                       `${activity.details || ''} ${activity.state?.replace('on Apple Podcasts', '').trim() || ''}`
                                     )}`
+                                  : activity.name.toLowerCase().includes("spotify")
+                                  ? `https://open.spotify.com/search/results/${encodeURIComponent(
+                                      `${activity.details}`
+                                    )}`
                                   : isMusicActivity
                                   ? `https://music.youtube.com/search?q=${encodeURIComponent(
                                       `${activity.details} ${activity.state || ''}`
@@ -214,6 +218,10 @@ export default function MusicActivity() {
                                 activity.state?.toLowerCase().includes("on apple podcasts")
                                   ? `https://podcasts.apple.com/search?term=${encodeURIComponent(
                                       `${activity.details || ''} ${activity.state?.replace('on Apple Podcasts', '').trim() || ''}`
+                                    )}`
+                                  : activity.name.toLowerCase().includes("spotify")
+                                  ? `https://open.spotify.com/search/results/${encodeURIComponent(
+                                      `${activity.state}`
                                     )}`
                                   : isMusicActivity
                                   ? `https://music.youtube.com/search?q=${encodeURIComponent(
