@@ -95,46 +95,47 @@ export default function Discord() {
   return (
     <div className="mb-4 flex gap-2 items-center text-base leading-snug">
       {data?.discord_user.avatar ? (
-        <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
-          {/* Avatar */}
-          <Link href="/discord">
-            <Image
-              src={`https://cdn.discordapp.com/avatars/${data?.discord_user.id}/${
-                data?.discord_user.avatar
-              }.${
-                data?.discord_user.avatar.startsWith("a_") ? "gif" : "webp"
-              }?size=256`}
-              alt="Discord Avatar"
-              width={256}
-              height={256}
-              priority={true}
-              className="rounded-full"
-            />
-          </Link>
-
-          {/* Avatar decoration (if exists) */}
-          {data?.discord_user.avatar_decoration_data?.asset && (
-            <Image
-              src={`https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=80&passthrough=true`}
-              alt="Avatar Decoration"
-              width={320}
-              height={320}
-              className="absolute inset-0 pointer-events-none translate-x-[-0px] scale-125"
-            />
-          )}
-
-          {/* Status Indicator */}
-          <div
-            className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
-              data?.discord_status
-            )}`}
-          >
-            <div className="text-sm absolute z-10 mb-1 px-2 py-1 bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full rounded-lg w-max">
+          <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative group">
+            {/* Avatar */}
+            <Link href="/discord">
+              <Image
+                src={`https://cdn.discordapp.com/avatars/${data?.discord_user.id}/${
+                  data?.discord_user.avatar
+                }.${
+                  data?.discord_user.avatar.startsWith("a_") ? "gif" : "webp"
+                }?size=256`}
+                alt="Discord Avatar"
+                width={256}
+                height={256}
+                priority={true}
+                className="rounded-full"
+              />
+            </Link>
+          
+            {/* Tooltip (positioned absolutely) */}
+            <div className="absolute z-50 bottom-[110%] left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-900 text-white opacity-0 group-hover:opacity-100 transition pointer-events-none rounded-lg w-max">
               {capitalize(data?.discord_status)} on{" "}
               {data?.active_on_discord_mobile ? "Mobile" : "Desktop"}
             </div>
+          
+            {/* Avatar decoration */}
+            {data?.discord_user.avatar_decoration_data?.asset && (
+              <Image
+                src={`https://cdn.discordapp.com/avatar-decoration-presets/${data.discord_user.avatar_decoration_data.asset}.png?size=80&passthrough=true`}
+                alt="Avatar Decoration"
+                width={320}
+                height={320}
+                className="absolute inset-0 pointer-events-none translate-x-[-0px] scale-125"
+              />
+            )}
+          
+            {/* Status Indicator */}
+            <div
+              className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
+                data?.discord_status
+              )}`}
+            />
           </div>
-        </div>
       ) : (
         <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-full"></div>
       )}
