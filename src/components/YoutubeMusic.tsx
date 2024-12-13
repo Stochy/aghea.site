@@ -30,12 +30,13 @@ const getThumbnailUrl = (imagePath: string) => {
   return "/images/emptysong.jpg";
 };
 
-const getActivityIcon = (name: string) => {
+const getActivityIcon = (name: string, state: string) => {
   if (name.toLowerCase().includes("youtube music")) return "simple-icons:youtubemusic";
   if (name.toLowerCase().includes("youtube")) return "simple-icons:youtube";
   if (name.toLowerCase().includes("tune")) return "akar-icons:music";
   if (name.toLowerCase().includes("spotify")) return "simple-icons:spotify";
-  if (name.toLowerCase().includes("apple")) return "simple-icons:applemusic";
+  if (name.toLowerCase().includes("music")) return "simple-icons:applemusic";
+  if (state.toLowerCase().includes("apple")) return "simple-icons:applepodcasts";
   return "streamline:entertainment-earpods-airpods-audio-earpods-music-earbuds-true-wireless";
 };
 
@@ -91,7 +92,7 @@ export default function MusicActivity() {
       if (lanyardData?.activities) {
         const musicActivities = lanyardData.activities.filter(
           (activity) =>
-            activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("tune") || activity.assets?.small_text?.toLowerCase().includes("spotify")
+            activity.name?.toLowerCase().includes("music") || activity.state?.toLowerCase().includes("apple") || activity.name?.toLowerCase().includes("tune") || activity.assets?.small_text?.toLowerCase().includes("spotify")
         );
         
         const youtubeActivities = lanyardData.activities.filter(
@@ -128,8 +129,9 @@ export default function MusicActivity() {
         hasMusicActivity ? (
           <div className="flex items-center text-base leading-snug gap-4">
             {lanyardData.activities.map((activity) => {
+              const icon = getActivityIcon(activity.name, activity.state || "");
               const isMusicActivity =
-                activity.name?.toLowerCase().includes("music") || activity.name?.toLowerCase().includes("tune") || activity.assets?.small_text?.toLowerCase().includes("spotify");
+                activity.name?.toLowerCase().includes("music") || activity.state?.toLowerCase().includes("apple") || activity.name?.toLowerCase().includes("tune") || activity.assets?.small_text?.toLowerCase().includes("spotify");
               const isYoutubeActivity =
                 activity.name?.toLowerCase().includes("youtube");
 
@@ -158,7 +160,7 @@ export default function MusicActivity() {
                   <div className="flex flex-col justify-between flex-1">
                     <div className="flex items-center gap-1">
                       <Icon
-                        icon={getActivityIcon(activity.name)}
+                        icon={icon}
                         width={24}
                         height={24}
                         className="opacity-80 w-4 h-4"
@@ -182,42 +184,53 @@ export default function MusicActivity() {
                       {(activity.type === 2 || activity.type === 3) && (
                         <div className="mt-1">
                           {activity.details && (
-                            <p>
-                              <a
-                                className="opacity-80 border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.details}
-                              </a>{" "}
-                              <a className="opacity-60 border-[#fff4] transition hover:border-white">
-                                {!activity.state?.toLowerCase().includes("by") && " oleh "}
-                              </a>{" "}
-                              <a className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
-                                href={
-                                  isMusicActivity
-                                    ? `https://music.youtube.com/search?q=${encodeURIComponent(
-                                        `${activity.details} ${activity.state || ''}`
-                                      )}`
-                                    : `https://www.youtube.com/results?search_query=${encodeURIComponent(
-                                        `${activity.state?.toLowerCase().includes("by") ? activity.state.replace("by", "").trim() : activity.state || ''}`
-                                      )}`
-                                }
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {activity.state}
-                              </a>
-                            </p>
+                          <p>
+                            <a
+                              className="opacity-80 border-b border-[#fff4] transition hover:border-white"
+                              href={
+                                activity.state?.toLowerCase().includes("on apple podcasts")
+                                  ? `https://podcasts.apple.com/search?term=${encodeURIComponent(
+                                      `${activity.details || ''} ${activity.state?.replace('on Apple Podcasts', '').trim() || ''}`
+                                    )}`
+                                  : isMusicActivity
+                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                      `${activity.details} ${activity.state || ''}`
+                                    )}`
+                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                      `${activity.details} ${activity.state || ''}`
+                                    )}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {activity.details}
+                            </a>{" "}
+                            {!activity.state?.toLowerCase().includes("on apple podcasts") && (
+                              <span className="opacity-60">oleh </span>
+                            )}
+                            <a
+                              className="opacity-60 font-bold border-b border-[#fff4] transition hover:border-white"
+                              href={
+                                activity.state?.toLowerCase().includes("on apple podcasts")
+                                  ? `https://podcasts.apple.com/search?term=${encodeURIComponent(
+                                      `${activity.details || ''} ${activity.state?.replace('on Apple Podcasts', '').trim() || ''}`
+                                    )}`
+                                  : isMusicActivity
+                                  ? `https://music.youtube.com/search?q=${encodeURIComponent(
+                                      `${activity.details} ${activity.state || ''}`
+                                    )}`
+                                  : `https://www.youtube.com/results?search_query=${encodeURIComponent(
+                                      activity.state?.toLowerCase().includes("by")
+                                        ? activity.state.replace("by", "").trim()
+                                        : activity.state || ''
+                                    )}`
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {activity.state}
+                            </a>
+                          </p>
                           )}
                           {activity.assets?.large_text && (
                             <p className="opacity-60">
