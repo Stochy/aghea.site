@@ -112,12 +112,6 @@ export default function Discord() {
               />
             </Link>
           
-            {/* Tooltip (positioned absolutely) */}
-            <div className="absolute z-50 bottom-[110%] left-1/2 -translate-x-1/2 px-2 py-1 bg-slate-900 text-white opacity-0 group-hover:opacity-100 transition pointer-events-none rounded-lg w-max">
-              {capitalize(data?.discord_status)} on{" "}
-              {data?.active_on_discord_mobile ? "Mobile" : "Desktop"}
-            </div>
-          
             {/* Avatar decoration */}
             {data?.discord_user.avatar_decoration_data?.asset && (
               <Image
@@ -131,11 +125,16 @@ export default function Discord() {
           
             {/* Status Indicator */}
             <div
-              className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
-                data?.discord_status
-              )}`}
-            />
+            className={`absolute bottom-0.5 right-0.5 w-3 h-3 md:w-4 md:h-4 rounded-full ring-[3px] md:ring-4 ring-black ${getStatusColor(
+              data?.discord_status
+            )}`}
+          >
+            <div className="text-sm absolute z-10 mb-1 px-2 py-1 bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full rounded-lg w-max">
+              {capitalize(data?.discord_status)} on{" "}
+              {data?.active_on_discord_mobile ? "Mobile" : "Desktop"}
+            </div>
           </div>
+        </div>
       ) : (
         <div className="w-16 h-16 md:w-20 md:h-20 bg-gray-800 rounded-full"></div>
       )}
