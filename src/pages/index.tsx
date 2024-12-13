@@ -5,7 +5,7 @@ import Image from "next/future/image";
 import Link from "next/link";
 import { Clock } from "../components/Clock";
 import Discord from "../components/Discord";
-import YoutubeMusic from "../components/YoutubeMusic";
+import DiscordActivity from "../components/DiscordActivity";
 import GenericMeta from "../components/GenericMeta";
 import Spotify from "../components/Spotify";
 import { socials } from "../data/socials";
@@ -63,7 +63,7 @@ export default function Home({
 			<hr className="mb-4 bg-slate-800 border-none h-0.5" />
 
 			<Discord />
-			<YoutubeMusic />
+			<DiscordActivity />
 			<Spotify />
 		</>
 	);
