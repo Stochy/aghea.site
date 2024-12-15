@@ -218,13 +218,13 @@ function OtherActivities({ activities }: OtherActivitiesProps) {
   return (
     <>
       {filteredActivities?.map((activity) => (
-        <div key={activity.id} className="flex items-center gap-1 mb-3">
+        <div key={activity.id} className="flex gap-1 mb-3">
           <div className="flex-shrink-0 relative">
             {/* Activity Thumbnail */}
             <Image
               src={getThumbnailUrl(activity.assets?.large_image || "", activity.application_id)}
               alt="Activity Thumbnail"
-              className="w-5 h-5 object-cover object-center"
+              className="w-5 h-5 object-cover object-center rounded-lg"
               width={256}
               height={256}
             />

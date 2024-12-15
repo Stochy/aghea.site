@@ -38,6 +38,7 @@ export default function Home({
 			<p className="mb-4">
 				<span className="opacity-80">Nama saya adalah Agcrismanto Budhi Praswastyka, dikenal sebagai Cris ataupun Aghea, berasal dari Yogyakarta, Indonesia. Saya adalah seorang {" "}
 				 Pegiat Hukum, dan Web Developer.{" "}
+				 </span>
 			</p>
 
 			<p className="mb-2 flex flex-wrap gap-2 items-center">
