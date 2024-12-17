@@ -76,7 +76,7 @@ const config = {
       },
       {
         source: '/spotify',
-        destination: 'https://bit.ly/4atYAGx',
+        destination: 'https://spoti.fi/3PkwCnr',
         permanent: true,
       },
       {
