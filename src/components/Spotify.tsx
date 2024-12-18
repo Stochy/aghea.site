@@ -1,164 +1,182 @@
-import { Icon } from '@iconify/react';
+// Spotify.tsx
+import { Icon } from "@iconify/react";
 import Image from "next/future/image";
 import { useEffect, useState } from "preact/hooks";
 import useSWR from "swr";
 import Link from "next/link";
 
 import type {
-	NowPlayingResponseError,
-	NowPlayingResponseSuccess
+  NowPlayingResponseError,
+  NowPlayingResponseSuccess,
 } from "../pages/api/nowPlaying";
 
 const formatDuration = (ms: number) => {
-	const seconds = Math.floor((ms / 1000) % 60)
-		.toString()
-		.padStart(2, "0");
-	const minutes = Math.floor(ms / 1000 / 60);
+  const seconds = Math.floor((ms / 1000) % 60).toString().padStart(2, "0");
+  const minutes = Math.floor(ms / 1000 / 60);
 
-	return `${minutes}:${seconds}`;
+  return `${minutes}:${seconds}`;
 };
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export default function Spotify() {
-	const { data } = useSWR<NowPlayingResponseSuccess, NowPlayingResponseError>(
-		"/api/nowPlaying",
-		fetcher,
-		{ refreshInterval: 5000 }
-	);
+  const { data } = useSWR<
+    NowPlayingResponseSuccess,
+    NowPlayingResponseError
+  >("/api/nowPlaying", fetcher, { refreshInterval: 5000 });
 
-	const [time, setTime] = useState(0);
+  const [time, setTime] = useState(0);
 
-	useEffect(() => {
-		if (!data?.progessMs || !data.track) return;
+  useEffect(() => {
+    if (!data?.progessMs || !data.item) return;
 
-		const started = Date.now();
+    const started = Date.now();
 
-		const interval = setInterval(() => {
-			setTime(
-				data.isPaused
-					? data.progessMs
-					: Math.min(
-							data.progessMs! + Date.now() - started,
-							data?.track?.duration_ms!
-					  )
-			);
-		}, 100);
+    const interval = setInterval(() => {
+      setTime(
+        data.isPaused
+          ? data.progessMs
+          : Math.min(
+              data.progessMs + Date.now() - started,
+              data.item.duration_ms ?? 0,
+            ),
+      );
+    }, 100);
 
-		return () => clearInterval(interval);
-	}, [data]);
+    return () => clearInterval(interval);
+  }, [data]);
 
-	return (
-		<div className="flex gap-2 items-center text-base leading-snug">
-			<div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
-  			<Link href="/spotify">
-  				<Image
-					src={
-						data?.track?.album.images[0]?.url ??
-						"/images/emptysong.jpg"
-					}
-					alt="Spotify Album Art"
-					width={256}
-					height={256}
-					priority={true}
-					className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
-				  />
-				</Link>
-			</div>
-			<div className="basis-full">
-				<p>
-					{data?.track ? (
-						<>
-							<a
-								href={data.track.external_urls.spotify}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="font-bold border-b border-[#fff4] transition hover:border-white"
-							>
-								{data.track.name}
-							</a>{" "}
-							oleh{" "}
-							{data.track.artists.map((artist, i) => (
-								<span key={data.track?.id + artist.id}>
-									<a
-										href={artist.external_urls.spotify}
-										target="_blank"
-										rel="noopener noreferrer"
-										className="border-b border-[#fff4] transition hover:border-white"
-									>
-										{artist.name}
-									</a>
-									{i < data.track?.artists.length! - 1
-										? ", "
-										: null}
-								</span>
-							))}
-						</>
-					) : (
-						"Offline"
-					)}
-				</p>
-				<p className="opacity-80">
-					{data?.track ? (
-						<>
-							Album{" "}
-							<a
-								href={data.track.album.external_urls.spotify}
-								target="_blank"
-								rel="noopener noreferrer"
-								className="border-b border-[#fff4] transition hover:border-white"
-							>
-								{data.track.album.name}
-							</a>
-						</>
-					) : null}
-				</p>
-				<p className="opacity-80 flex items-center gap-1">
-					{data?.isPlayingNow && data.track ? (
-						<span className="block w-full max-w-sm mt-2">
-							<span className="block h-0.5 rounded overflow-hidden bg-[#5e5e5e]">
-								<span
-									className="block h-full bg-white"
-									style={{
-										width: `${
-											(time! / data.track.duration_ms) *
-											100
-										}%`
-									}}
-								/>
-							</span>
-							<span className="flex items-center text-sm">
-								<span className="basis-full">
-									{formatDuration(time!)}
-								</span>
-								<span>
-									{data?.isPaused ? (
-										<Icon className="text-white h-4 w-4" icon="line-md:pause-to-play-transition" />
-									) : (
-										<Icon className="text-white h-4 w-4" icon="line-md:play-to-pause-transition" />
-									)}
-								</span>
-								<span className="basis-full text-right">
-									{formatDuration(data.track.duration_ms)}
-								</span>
-							</span>
-						</span>
-					) : (
-						<>
-							<span className="w-4 h-4">
-								<Icon
-									icon="simple-icons:spotify"
-									width={48}
-									height={48}
-									className="w-4 h-4"
-								/>
-							</span>
-							{data?.track ? <>Terakhir diputar di </> : null}
-							Spotify
-						</>
-					)}
-				</p>
-			</div>
-		</div>
-	);
+  return (
+    <div className="flex gap-2 items-center text-base leading-snug">
+      <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
+        <Link href="/spotify">
+          <Image
+            src={
+              (data?.item?.type === "track"
+                ? data?.item?.album?.images[0]?.url
+                : data?.item?.images[0]?.url) ?? "/images/emptysong.jpg"
+            }
+            alt="Spotify Now Playing"
+            width={256}
+            height={256}
+            priority={true}
+            className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
+          />
+        </Link>
+      </div>
+      <div className="basis-full">
+        {data?.item ? (
+          <>
+            <p>
+              <a
+                href={data.item.external_urls.spotify}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-bold border-b border-[#fff4] transition hover:border-white"
+              >
+                {data.item.name}
+              </a>
+              {"album" in data.item && (
+                <>
+                  {" "}
+                  oleh{" "}
+                  {Array.isArray(data.item.artists) &&
+                    data.item.artists.map((artist, i) => (
+                      <span key={data.item.id + artist.id}>
+                        <a
+                          href={artist.external_urls.spotify}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="border-b border-[#fff4] transition hover:border-white"
+                        >
+                          {artist.name}
+                        </a>
+                        {i < data.item.artists.length - 1 ? ", " : null}
+                      </span>
+                    ))}
+                </>
+              )}
+            </p>
+            {"album" in data.item ? ( // Use "album" in data.item
+              <p className="opacity-80">
+                Album{" "}
+                <a
+                  href={data.item.album.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-b border-[#fff4] transition hover:border-white"
+                >
+                  {data.item.album.name}
+                </a>
+              </p>
+            ) : (
+              // Display Show information for episodes
+              <p className="opacity-80">
+                Publisher{" "}<a
+                  href={data.item.show.external_urls.spotify}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="border-b border-[#fff4] transition hover:border-white"
+                >
+                  {data.item.show.name}
+                </a>{" "}
+              </p>
+            )}
+            <p className="opacity-80 flex items-center gap-1">
+              {data.isPlayingNow && data.item ? (
+                <span className="block w-full max-w-sm mt-2">
+                  <span className="block h-0.5 rounded overflow-hidden bg-[#5e5e5e]">
+                    <span
+                      className="block h-full bg-white"
+                      style={{
+                        width: `${
+                          (time / (data.item.duration_ms ?? 0)) * 100
+                        }%`,
+                      }}
+                    />
+                  </span>
+                  <span className="flex items-center text-sm">
+                    <span className="basis-full">{formatDuration(time)}</span>
+                    <span>
+                      {data.isPaused ? (
+                        <Icon
+                          className="text-white h-4 w-4"
+                          icon="line-md:pause-to-play-transition"
+                        />
+                      ) : (
+                        <Icon
+                          className="text-white h-4 w-4"
+                          icon="line-md:play-to-pause-transition"
+                        />
+                      )}
+                    </span>
+                    <span className="basis-full text-right">
+                      {formatDuration(data.item.duration_ms ?? 0)}
+                    </span>
+                  </span>
+                </span>
+              ) : (
+                <>
+                  <span className="w-4 h-4">
+                    <Icon
+                      icon="simple-icons:spotify"
+                      width={48}
+                      height={48}
+                      className="w-4 h-4"
+                    />
+                  </span>
+                  {data.recentlyPlayed ? (
+                    <>Terakhir diputar di </>
+                  ) : null}
+                  Spotify
+                </>
+              )}
+            </p>
+          </>
+        ) : (
+          <p>Offline</p>
+        )}
+      </div>
+    </div>
+  );
 }
