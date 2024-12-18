@@ -8,7 +8,7 @@ import Link from "next/link";
 import type {
   NowPlayingResponseError,
   NowPlayingResponseSuccess,
-} from "../pages/api/nowPlaying";
+} from "../pages/api/podcast";
 
 const formatDuration = (ms: number) => {
   const seconds = Math.floor((ms / 1000) % 60).toString().padStart(2, "0");
@@ -23,7 +23,7 @@ export default function Spotify() {
   const { data } = useSWR<
     NowPlayingResponseSuccess,
     NowPlayingResponseError
-  >("/api/nowPlaying", fetcher, { refreshInterval: 5000 });
+  >("/api/podcast", fetcher, { refreshInterval: 5000 });
 
   const [time, setTime] = useState(0);
 
