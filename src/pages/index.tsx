@@ -8,6 +8,7 @@ import Discord from "../components/Discord";
 import DiscordActivity from "../components/DiscordActivity";
 import GenericMeta from "../components/GenericMeta";
 import Spotify from "../components/Spotify";
+import Weather from "../components/Weather";
 import { socials } from "../data/socials";
 import { Icon } from '@iconify/react';
 
@@ -59,6 +60,7 @@ export default function Home({
 
 			<p className="mb-4 text-base text-gray-300">
 				<Clock />
+				<Weather />
 			</p>
 
 			<hr className="mb-4 bg-slate-800 border-none h-0.5" />
