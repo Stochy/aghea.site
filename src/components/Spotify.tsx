@@ -111,7 +111,7 @@ export default function Spotify() {
             ) : (
               // Display Show information for episodes
               <p className="opacity-80">
-                Podcast ●{" "}<a
+                Podcast{" "}<a
                   href={data.item.show.external_urls.spotify}
                   target="_blank"
                   rel="noopener noreferrer"
