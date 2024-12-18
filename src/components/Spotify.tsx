@@ -80,8 +80,7 @@ export default function Spotify() {
                 <>
                   {" "}
                   oleh{" "}
-                  {Array.isArray(data.item.artists) &&
-                    data.item.artists.map((artist, i) => (
+                  {data.item.artists.map((artist: any, i: number) => (
                       <span key={data.item.id + artist.id}>
                         <a
                           href={artist.external_urls.spotify}
