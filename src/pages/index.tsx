@@ -60,6 +60,7 @@ export default function Home({
 
 			<p className="mb-4 text-base text-gray-300">
 				<Clock />
+				<Weather onlyCity={true}/>
 				<Weather />
 			</p>
 

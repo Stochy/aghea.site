@@ -45,7 +45,7 @@ const icons: Record<string, string> = {
   Tornado: 'mdi:weather-tornado',
 };
 
-const Weather: React.FC = () => {
+const Weather: React.FC<{ onlyCity?: boolean }> = ({ onlyCity = false }) => {
   const [data, setData] = useState<WeatherResponse | undefined>(undefined);
   const [loading, setLoading] = useState(true);
 
@@ -63,11 +63,23 @@ const Weather: React.FC = () => {
   }, []);
 
   if (loading) {
-    return <p></p>;
+    return null;
   }
 
   if (!data) {
-    return <p>Data cuaca tidak tersedia</p>;
+    return <p>Data cuaca tidak tersedia.</p>;
+  }
+
+  if (onlyCity) {
+    return (
+      <p className="mt-2 flex text-sm gap-2 items-center">
+        <Icon icon="mdi:globe" className="w-5 h-5" />
+      {' '}
+      <span>
+        {data.name}
+      </span>
+      </p>
+    );
   }
 
   const tempCelsius = ((data.main.temp - 32) * 5) / 9;
@@ -77,9 +89,10 @@ const Weather: React.FC = () => {
   return (
     <p className="mt-2 flex text-sm gap-2 items-center">
       <Icon icon={weatherIcon} className="w-5 h-5" />
+      {' '}
       <span>
         {tempCelsius.toFixed(0)}°C{' '}
-        {names[weatherMain] ?? weatherMain} &ndash; <b>{data.name}</b>
+        {names[weatherMain] ?? weatherMain}
       </span>
     </p>
   );
