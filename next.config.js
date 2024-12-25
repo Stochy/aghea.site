@@ -35,6 +35,11 @@ const config = {
   async redirects() {
     return [
       {
+        source: '/blog',
+        destination: 'https://bit.ly/AgheaBlog',
+        permanent: true,
+      },
+      {
         source: '/bsky',
         destination: 'https://bit.ly/AgheaBsky',
         permanent: true,
