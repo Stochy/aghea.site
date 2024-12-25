@@ -70,10 +70,13 @@ export default function Projects() {
 			<TrackList tracks={topMusic?.short.items} priority={true} />
 
 			<h2 className="font-bold text-3xl mb-4">6 Bulan Terakhir</h2>
-			<TrackList tracks={topMusic?.medium.items} />
+      <TrackList tracks={topMusic?.medium.items} priority={false} />
 
-			<h2 className="font-bold text-3xl mb-4">Sepanjang Waktu</h2>
-			<TrackList tracks={topMusic?.long.items} />
-		</>
-	);
+      <h2 className="font-bold text-3xl mb-4">Sepanjang Waktu</h2>
+      <TrackList tracks={topMusic?.long.items} priority={false} />
+
+      <h2 className="font-bold text-3xl mb-4">Artis Teratas</h2>
+      <TrackList topArtists={topMusic?.topArtists} priority={false} />
+    </>
+  );
 }
