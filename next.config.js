@@ -51,7 +51,7 @@ const config = {
       },
       {
         source: '/email',
-        destination: 'mailto:agcrisbp@proton.me',
+        destination: '/api/email',
         permanent: true,
       },
       {
