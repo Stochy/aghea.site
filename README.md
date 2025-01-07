@@ -53,8 +53,8 @@ cd app && yarn dev
 - Take a look to [/src/pages/api/lanyard.js](/src/pages/api/lanyard.js).
 
 ### Spotify Setup
-- Use [ADLink Spotify](https://github.com/agcrisbp/Spotify-ADLink).
-- If you're lazy, add the following code to [/src/pages/index.tsx](/src/pages/index.tsx):
+- Read [Setting up Spotify Dev](https://github.com/agcrisbp/ADTify?tab=readme-ov-file#setting-up-spotify-dev).
+- If you're too lazy, replace `<Spotify />` and its import with the following code bellow to [/src/pages/index.tsx](/src/pages/index.tsx):
 
 ```tsx
 import Spo from "../components/Spo";
@@ -69,6 +69,6 @@ import Spo from "../components/Spo";
 ---
 
 # QNA?
-- I really open my door to anyone who wants to ask questions if they encounter difficulties in creating this app. Please contact me through [SimpleX](https://aghea.vercel.app/contact) or [Email](https://aghea.vercel.app/email).
+- I really open my door to anyone who wants to ask questions if they encounter difficulties in creating this app. Please contact me through [Signal](https://aghea.vercel.app/contact) or [Email](https://aghea.vercel.app/email).
 
 ---
