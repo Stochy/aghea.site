@@ -206,19 +206,21 @@ export default function Spo() {
   const trackUrl = spotifyData?.track_id ? `https://open.spotify.com/track/${spotifyData.track_id}` : '';
 
   return (
-    <div className="mb-4">
+    <div>
       <div className="flex items-center text-base leading-snug gap-2">
         {/* Thumbnail */}
-        <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
-          <Image
-            src={spotifyData?.album_art_url ?? '/images/emptysong.jpg'} // Default fallback
-            alt={`Album art for ${spotifyData?.album}`}
-            className="w-full h-full object-cover object-center rounded-lg"
-            width={256}
-            height={256}
-            onContextMenu={(e) => e.preventDefault()}
-          />
-        </div>
+        {spotifyData?.album_art_url ? (
+          <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0 relative">
+            <Image
+              src={spotifyData.album_art_url}
+              alt={`Album art for ${spotifyData.album || "Unknown Album"}`}
+              className="w-full h-auto object-cover rounded-lg"
+              width={256}
+              height={256}
+              onContextMenu={(e) => e.preventDefault()}
+            />
+          </div>
+        ) : null}
 
         {/* Song Details and Play Icon */}
         <div className="flex flex-col justify-between flex-1">
@@ -229,7 +231,7 @@ export default function Spo() {
               rel="noopener noreferrer"
               className="opacity-80 border-b border-[#fff4] transition hover:border-white"
             >
-              {spotifyData?.song ?? 'Not Listening to Anything'}
+              {spotifyData?.song ?? null}
             </a>
             <p className="text-sm opacity-65">{spotifyData?.artist}</p>
             <p className="text-sm opacity-50">{spotifyData?.album}</p>

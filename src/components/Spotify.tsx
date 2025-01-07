@@ -1,14 +1,12 @@
-// Spotify.tsx
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import Link from "next/link";
 
 import type {
   NowPlayingResponseError,
   NowPlayingResponseSuccess,
-} from "../pages/api/podcast";
+} from "../pages/api/nowPlaying";
 
 const formatDuration = (ms: number) => {
   const seconds = Math.floor((ms / 1000) % 60).toString().padStart(2, "0");
@@ -24,7 +22,7 @@ export default function Spotify() {
   const { data } = useSWR<
     NowPlayingResponseSuccess,
     NowPlayingResponseError
-  >("/api/podcast", fetcher, { refreshInterval: 5000 });
+  >("/api/nowPlaying", fetcher, { refreshInterval: 5000 });
 
   const [time, setTime] = useState(0);
 
@@ -50,7 +48,8 @@ export default function Spotify() {
   return (
     <div className="flex gap-2 items-center text-base leading-snug">
       <div className="w-16 h-16 md:w-20 md:h-20 flex-shrink-0">
-        <Link href="/spotify">
+        {data?.item ? (
+        <a href={data.item.external_urls.spotify}>
           <Image
             src={
               (data?.item?.type === "track"
@@ -64,7 +63,8 @@ export default function Spotify() {
             className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
             onContextMenu={(e) => e.preventDefault()}
           />
-        </Link>
+        </a>
+        ): null}
       </div>
       <div className="basis-full">
         {data?.item ? (
@@ -74,7 +74,7 @@ export default function Spotify() {
                 href={data.item.external_urls.spotify}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-bold border-b border-[#fff4] transition hover:border-white"
+                className="font-bold border-b border-invert transition hover:border-invert"
               >
                 {data.item.name}
               </a>
@@ -88,7 +88,7 @@ export default function Spotify() {
                           href={artist.external_urls.spotify}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="border-b border-[#fff4] transition hover:border-white"
+                          className="border-b border-invert transition hover:border-invert"
                         >
                           {artist.name}
                         </a>
@@ -98,26 +98,25 @@ export default function Spotify() {
                 </>
               )}
             </p>
-            {"album" in data.item ? ( // Use "album" in data.item
+            {"album" in data.item ? (
               <p className="opacity-80">
                 Album{" "}
                 <a
                   href={data.item.album.external_urls.spotify}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-b border-[#fff4] transition hover:border-white"
+                  className="border-b border-invert transition hover:border-invert"
                 >
                   {data.item.album.name}
                 </a>
               </p>
             ) : (
-              // Display Show information for episodes
               <p className="opacity-80">
                 Podcast{" "}<a
                   href={data.item.show.external_urls.spotify}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="border-b border-[#fff4] transition hover:border-white"
+                  className="border-b border-invert transition hover:border-invert"
                 >
                   {data.item.show.name}
                 </a>{" "}
@@ -127,29 +126,27 @@ export default function Spotify() {
               {data.isPlayingNow && data.item ? (
                 <span className="block w-full max-w-sm mt-2">
                   <span className="block h-0.5 rounded overflow-hidden bg-[#5e5e5e]">
-                    <span
-                      className="block h-full"
-                      style={{
-                        width: `${
-                          (time / (data.item.duration_ms ?? 0)) * 100
-                        }%`,
-                        backgroundColor: document.body.classList.contains("dark")
+                  <span
+                    className="block h-full"
+                    style={{
+                      width: `${(time / (data.item.duration_ms ?? 0)) * 100}%`,
+                      backgroundColor: document.body.classList.contains("dark")
                         ? "#fff"
                         : "#000",
-                      }}
-                    />
+                    }}
+                  />
                   </span>
                   <span className="flex items-center text-sm">
                     <span className="basis-full">{formatDuration(time)}</span>
                     <span>
                       {data.isPaused ? (
                         <Icon
-                          className="h-4 w-4"
+                          className="text-white h-4 w-4"
                           icon="line-md:pause-to-play-transition"
                         />
                       ) : (
                         <Icon
-                          className="h-4 w-4"
+                          className="text-white h-4 w-4"
                           icon="line-md:play-to-pause-transition"
                         />
                       )}
@@ -177,9 +174,7 @@ export default function Spotify() {
               )}
             </p>
           </>
-        ) : (
-          <p>Offline</p>
-        )}
+        ) : null}
       </div>
     </div>
   );
