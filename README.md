@@ -54,7 +54,7 @@ cd app && yarn dev
 
 ### Spotify Setup
 - Read [Setting up Spotify Dev](https://github.com/agcrisbp/ADTify?tab=readme-ov-file#setting-up-spotify-dev).
-- If you're too lazy, replace `<Spotify />` and its import with the following code bellow to [/src/pages/index.tsx](/src/pages/index.tsx):
+- If you're too lazy, replace `<Spotify />` and its import with the following code below to [/src/pages/index.tsx](/src/pages/index.tsx):
 
 ```tsx
 import Spo from "../components/Spo";
