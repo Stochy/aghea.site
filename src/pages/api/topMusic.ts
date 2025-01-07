@@ -27,7 +27,7 @@ const fetchFromSpotify = async (url: string, accessToken: string) => {
 };
 
 const fetchPlaylists = async (accessToken: string) => {
-  const data = await fetchFromSpotify(`${SPOTIFY_API_URL}/me/playlists?limit=10`, accessToken);
+  const data = await fetchFromSpotify(`${SPOTIFY_API_URL}/me/playlists`, accessToken);
   return data.items;
 };
 
