@@ -6,6 +6,7 @@ export interface NowPlayingResponseSuccess {
   progessMs: number;
   item: any | null;
   recentlyPlayed: boolean;
+  track: SpotifyApi.TrackObjectFull | null;
 }
 export type NowPlayingResponseError = { error: unknown };
 export type NowPlayingResponse =
@@ -64,6 +65,7 @@ export default async function handler(
       progessMs: 0,
       item: null,
       recentlyPlayed: false,
+      track: null,
     };
 
     if (playingResponse.status === 204) {
