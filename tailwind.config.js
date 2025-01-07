@@ -11,12 +11,18 @@ module.exports = {
 			...defaultTheme.screens
 		},
 		extend: {
-			fontFamily: {
-				heading: ["Inter", ...defaultTheme.fontFamily.sans],
-				sans: ["Outfit", ...defaultTheme.fontFamily.sans]
-			}
-		}
-	},
+      fontFamily: {
+        heading: ["Inter", ...defaultTheme.fontFamily.sans],
+        sans: ["Outfit", ...defaultTheme.fontFamily.sans]
+      },
+      colors: {
+        lightBackground: '#FFFFFF',
+        darkBackground: '#1a1a1a',
+        lightText: '#000000',
+        darkText: '#FFFFFF',
+      }
+    }
+  },
 	variants: {},
 	corePlugins: {
 		container: false

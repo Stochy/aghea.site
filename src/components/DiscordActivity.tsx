@@ -165,17 +165,17 @@ export default function MusicActivity() {
                         height={24}
                         className="opacity-80 w-4 h-4"
                       />
-                      <a className="text-white">{activity.name}</a>
+                      <a>{activity.name}</a>
                       <span className="ml-auto">
                         {isPlaying ? (
                           <Icon
                             icon="line-md:play-to-pause-transition"
-                            className="text-white h-5 w-5"
+                            className="h-5 w-5"
                           />
                         ) : (
                           <Icon
                             icon="line-md:pause-to-play-transition"
-                            className="text-white h-5 w-5"
+                            className="h-5 w-5"
                           />
                         )}
                       </span>
@@ -268,6 +268,9 @@ export default function MusicActivity() {
                               className="block h-full bg-white"
                               style={{
                                 width: `${(elapsedTime / duration) * 100}%`,
+                                backgroundColor: document.body.classList.contains("dark")
+                                ? "#fff"
+                                : "#000",
                               }}
                             />
                           </div>

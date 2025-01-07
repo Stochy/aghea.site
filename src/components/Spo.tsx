@@ -110,6 +110,7 @@ export default function Spo() {
               width={256}
               height={256}
               className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
+              onContextMenu={(e) => e.preventDefault()}
             />
           </div>
           <div className="basis-full">
@@ -152,12 +153,13 @@ export default function Spo() {
 						<span className="block w-full max-w-sm mt-2">
 							<span className="block h-0.5 rounded overflow-hidden bg-[#5e5e5e]">
 								<span
-									className="block h-full bg-white"
+									className="block h-full"
 									style={{
 										width: `${
 											(time! / nowPlayingData.track?.duration_ms) *
 											100
-										}%`
+										}%`,
+										backgroundColor: document.body.classList.contains("dark") ? "#fff" : "#000",
 									}}
 								/>
 							</span>
@@ -167,9 +169,9 @@ export default function Spo() {
 								</span>
 								<span>
 									{nowPlayingData?.isPaused ? (
-										<Icon className="text-white h-4 w-4" icon="line-md:pause-to-play-transition" />
+										<Icon className="h-4 w-4" icon="line-md:pause-to-play-transition" />
 									) : (
-										<Icon className="text-white h-4 w-4" icon="line-md:play-to-pause-transition" />
+										<Icon className="h-4 w-4" icon="line-md:play-to-pause-transition" />
 									)}
 								</span>
 								<span className="basis-full text-right">
@@ -214,6 +216,7 @@ export default function Spo() {
             className="w-full h-full object-cover object-center rounded-lg"
             width={256}
             height={256}
+            onContextMenu={(e) => e.preventDefault()}
           />
         </div>
 
@@ -224,7 +227,7 @@ export default function Spo() {
               href={trackUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-white opacity-80 border-b border-[#fff4] transition hover:border-white"
+              className="opacity-80 border-b border-[#fff4] transition hover:border-white"
             >
               {spotifyData?.song ?? 'Not Listening to Anything'}
             </a>
@@ -237,8 +240,8 @@ export default function Spo() {
             <div className="mt-2">
               <div className="w-full h-1 rounded overflow-hidden bg-[#5e5e5e]">
                 <div
-                  className="block h-full bg-white"
-                  style={{ width: `${(elapsedTime / duration) * 100}%` }}
+                  className="block h-full"
+                  style={{ width: `${(elapsedTime / duration) * 100}%`, backgroundColor: document.body.classList.contains("dark") ? "#fff" : "#000", }}
                 />
               </div>
               <div className="flex justify-between text-xs opacity-60 mt-1">

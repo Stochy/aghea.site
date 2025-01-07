@@ -1,20 +1,10 @@
 // @ts-check
 
-const withPreact = require("next-plugin-preact");
 const withBundleAnalyzer = require("@next/bundle-analyzer")({
- enabled: process.env.ANALYZE === "true"
+  enabled: process.env.ANALYZE === "true"
 });
 
-// Menambahkan modul 'http'
 const http = require("http");
-
-// Menambahkan fungsi untuk melakukan redirect
-function redirectHandler(req, res) {
-  res.statusCode = 301;
-  res.setHeader("/twitter", "https://twitter.com/agcrisbp");
-  res.setHeader("/bsky", "http://aghea.vercel.app/bsky");
-  res.end();
-}
 
 /** @type {import("next").NextConfig} */
 const config = {
@@ -22,15 +12,45 @@ const config = {
   swcMinify: true,
   i18n: { locales: ["id-ID"], defaultLocale: "id-ID" },
   images: {
-    domains: ["cdn.discordapp.com", "i.scdn.co", "skillicons.dev", "media.discordapp.net"],
+    remotePatterns: [
+        {
+            protocol: 'https',
+            hostname: 'skillicons.dev',
+        },
+        {
+            protocol: 'https',
+            hostname: 'i.ibb.co',
+        },
+        {
+            protocol: 'https',
+            hostname: 'cdn.discordapp.com',
+        },
+        {
+            protocol: 'https',
+            hostname: 'i.scdn.co',
+        },
+        {
+            protocol: 'https',
+            hostname: 'media.discordapp.net',
+        },
+        {
+            protocol: 'https',
+            hostname: 'image-cdn-ak.spotifycdn.com',
+        },
+        {
+            protocol: 'https',
+            hostname: 'image-cdn-fa.spotifycdn.com',
+        },
+        {
+            protocol: 'https',
+            hostname: 'mosaic.scdn.co',
+        },
+    ],
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
   experimental: {
     esmExternals: false,
-    images: {
-      allowFutureImage: true,
-    },
   },
   async redirects() {
     return [
@@ -98,4 +118,4 @@ const config = {
   },
 };
 
-module.exports = withBundleAnalyzer(withPreact(config));
+module.exports = withBundleAnalyzer(config);

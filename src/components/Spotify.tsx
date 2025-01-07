@@ -1,7 +1,7 @@
 // Spotify.tsx
 import { Icon } from "@iconify/react";
-import Image from "next/future/image";
-import { useEffect, useState } from "preact/hooks";
+import Image from "next/image";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Link from "next/link";
 
@@ -62,6 +62,7 @@ export default function Spotify() {
             height={256}
             priority={true}
             className="w-16 h-16 md:w-20 md:h-20 object-cover object-center rounded-lg"
+            onContextMenu={(e) => e.preventDefault()}
           />
         </Link>
       </div>
@@ -127,11 +128,14 @@ export default function Spotify() {
                 <span className="block w-full max-w-sm mt-2">
                   <span className="block h-0.5 rounded overflow-hidden bg-[#5e5e5e]">
                     <span
-                      className="block h-full bg-white"
+                      className="block h-full"
                       style={{
                         width: `${
                           (time / (data.item.duration_ms ?? 0)) * 100
                         }%`,
+                        backgroundColor: document.body.classList.contains("dark")
+                        ? "#fff"
+                        : "#000",
                       }}
                     />
                   </span>
@@ -140,12 +144,12 @@ export default function Spotify() {
                     <span>
                       {data.isPaused ? (
                         <Icon
-                          className="text-white h-4 w-4"
+                          className="h-4 w-4"
                           icon="line-md:pause-to-play-transition"
                         />
                       ) : (
                         <Icon
-                          className="text-white h-4 w-4"
+                          className="h-4 w-4"
                           icon="line-md:play-to-pause-transition"
                         />
                       )}

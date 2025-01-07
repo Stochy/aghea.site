@@ -1,7 +1,7 @@
-import { HomeIcon } from "@heroicons/react/solid";
+import { useEffect, useState } from "react";
 import differenceInCalendarYears from "date-fns/differenceInCalendarYears";
 import type { InferGetServerSidePropsType } from "next";
-import Image from "next/future/image";
+import Image from "next/image";
 import Link from "next/link";
 import { Clock } from "../components/Clock";
 import Discord from "../components/Discord";
@@ -15,60 +15,72 @@ import { Icon } from '@iconify/react';
 const birthday = new Date(1998, 8, 31);
 
 export async function getStaticProps() {
-	return {
-		props: {
-			age: differenceInCalendarYears(Date.now(), birthday).toString()
-		}
-	};
+  return {
+    props: {
+      age: differenceInCalendarYears(Date.now(), birthday).toString()
+    }
+  };
 }
 
 export default function Home({
-	age
+  age
 }: InferGetServerSidePropsType<typeof getStaticProps>) {
-	return (
-		<>
-			<GenericMeta
-				title="Agcrismanto Budhi Praswastyka"
-				description="A programmer who aware of the tiny moments in a persons life that reveal greater truths."
-			/>
+  const [isClient, setIsClient] = useState(false);
 
-			<h1 className="heading mb-2">
-				Aghea&nbsp;<Icon icon="material-symbols:verified" color="#1dcaff" width="40" />
-			</h1>
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
-			<p className="mb-4">
-				<span className="opacity-80">Nama saya adalah Agcrismanto Budhi Praswastyka, dikenal sebagai Cris ataupun Aghea, berasal dari Yogyakarta, Indonesia. Saya adalah seorang {" "}
-				 Pegiat Hukum, dan Web Developer.{" "}
-				 </span>
-			</p>
+  return (
+    <>
+      <GenericMeta
+        title="Agcrismanto Budhi Praswastyka"
+        description="A programmer who is aware of the tiny moments in a person's life that reveal greater truths."
+      />
 
-			<p className="mb-2 flex flex-wrap gap-2 items-center">
-				{socials.map(({ name, icon, url }) => (
-					<a
-						key={name}
-						href={url}
-						target="_blank"
-						rel="noopener noreferrer"
-						className="w-6 h-6 hover:opacity-80 transition"
-					>
-						<Icon
-							icon={icon}
-						/>
-					</a>
-				))}
-			</p>
+      <h1 className="heading mb-2">
+        Aghea&nbsp;<Icon icon="material-symbols:verified" color="#1dcaff" width="40" />
+      </h1>
 
-			<p className="mb-4 text-base text-gray-300">
-				<Clock />
-				<Weather onlyCity={true}/>
-				<Weather />
-			</p>
+      <p className="mb-4">
+        <span className="opacity-80">Nama saya adalah Agcrismanto Budhi Praswastyka, dikenal sebagai Cris ataupun Aghea, berasal dari Yogyakarta, Indonesia. Saya adalah seorang{" "}
+          Pegiat Hukum, dan Web Developer.{" "}
+        </span>
+      </p>
 
-			<hr className="mb-4 bg-slate-800 border-none h-0.5" />
+      <p className="mb-2 flex flex-wrap gap-2 items-center">
+        {socials.map(({ name, icon, url }) => (
+          <a
+            key={name}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-6 h-6 hover:opacity-80 transition"
+          >
+            <Icon icon={icon} />
+          </a>
+        ))}
+      </p>
 
-			<Discord />
-			<DiscordActivity />
-			<Spotify />
-		</>
-	);
+      <p className="mb-4 text-base text-gray-500">
+        {isClient && (
+          <>
+            <Clock />
+            <Weather onlyCity={true} />
+            <Weather />
+          </>
+        )}
+      </p>
+
+      <hr className="mb-4 bg-slate-800 border-none h-0.5" />
+
+      {isClient && (
+        <>
+          <Discord />
+          <DiscordActivity />
+          <Spotify />
+        </>
+      )}
+    </>
+  );
 }

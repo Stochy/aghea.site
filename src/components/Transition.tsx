@@ -1,5 +1,4 @@
-import { useEffect } from "preact/hooks";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState, useEffect } from "react";
 
 export default function Transition({ children }: PropsWithChildren<{}>) {
 	const [currentChild, setCurrentChild] = useState(children);

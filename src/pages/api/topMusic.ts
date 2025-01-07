@@ -4,9 +4,8 @@ export type TopMusicResponseSuccess = {
   short: any;
   medium: any;
   long: any;
-  trackPlayCounts: Record<string, number>;
-  artistPlayTimes: Record<string, number>;
   topArtists: SpotifyApi.ArtistObjectFull[];
+  playlists: SpotifyApi.PlaylistObjectSimplified[];
 };
 
 export type TopMusicResponseError = { error: unknown };
@@ -27,20 +26,9 @@ const fetchFromSpotify = async (url: string, accessToken: string) => {
   return response.json();
 };
 
-const fetchAllRecentlyPlayedTracks = async (accessToken: string) => {
-  let allTracks: any[] = [];
-  let hasMoreTracks = true;
-  let before: string | null = null;
-
-  while (hasMoreTracks) {
-    const url = `${SPOTIFY_API_URL}/me/player/recently-played?limit=30${before ? `&before=${before}` : ''}`;
-    const data = await fetchFromSpotify(url, accessToken);
-    allTracks = [...allTracks, ...data.items];
-    before = data.items.length ? data.items[data.items.length - 1].played_at : null;
-    hasMoreTracks = data.items.length >= 50;
-  }
-
-  return allTracks;
+const fetchPlaylists = async (accessToken: string) => {
+  const data = await fetchFromSpotify(`${SPOTIFY_API_URL}/me/playlists?limit=10`, accessToken);
+  return data.items;
 };
 
 const fetchTopArtists = async (accessToken: string) => {
@@ -81,35 +69,21 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       return;
     }
 
-    // Serve cached data if available and not expired
     if (!cached || Date.now() > cachedTime) {
-      const [topArtists, short, medium, long, recentTracks] = await Promise.all([
+      const [topArtists, short, medium, long, playlists] = await Promise.all([
         fetchTopArtists(accessToken),
         fetchFromSpotify(`${SPOTIFY_API_URL}/me/top/tracks?limit=30&time_range=short_term`, accessToken),
         fetchFromSpotify(`${SPOTIFY_API_URL}/me/top/tracks?limit=30&time_range=medium_term`, accessToken),
         fetchFromSpotify(`${SPOTIFY_API_URL}/me/top/tracks?limit=30&time_range=long_term`, accessToken),
-        fetchAllRecentlyPlayedTracks(accessToken),
+        fetchPlaylists(accessToken),
       ]);
-
-      const trackPlayCounts: Record<string, number> = {};
-      const artistPlayTimes: Record<string, number> = {};
-
-      // Calculate play counts for tracks and playtimes for artists
-      recentTracks.forEach((item) => {
-        const { id, duration_ms } = item.track;
-        trackPlayCounts[id] = (trackPlayCounts[id] || 0) + 1;
-        item.track.artists.forEach((artist: { name: string }) => {
-          artistPlayTimes[artist.name] = (artistPlayTimes[artist.name] || 0) + duration_ms;
-        });
-      });
 
       cached = {
         short,
         medium,
         long,
-        trackPlayCounts,
-        artistPlayTimes,
         topArtists,
+        playlists,
       };
 
       cachedTime = Date.now() + 24 * 60 * 60 * 1000; // Cache for 24 hours

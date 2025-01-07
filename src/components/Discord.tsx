@@ -1,5 +1,5 @@
-import { useEffect, useState } from "preact/hooks";
-import Image from "next/future/image";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Icon } from '@iconify/react';
 import formatDistanceStrict from "date-fns/formatDistanceStrict";
@@ -109,6 +109,7 @@ export default function Discord() {
                 height={256}
                 priority={true}
                 className="rounded-full"
+                onContextMenu={(e) => e.preventDefault()}
               />
             </Link>
           
@@ -120,6 +121,7 @@ export default function Discord() {
                 width={320}
                 height={320}
                 className="absolute inset-0 pointer-events-none translate-x-[-0px] scale-125"
+                onContextMenu={(e) => e.preventDefault()}
               />
             )}
           
@@ -129,7 +131,7 @@ export default function Discord() {
               data?.discord_status
             )}`}
           >
-            <div className="text-sm absolute z-10 mb-1 px-2 py-1 bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full rounded-lg w-max">
+            <div className="text-white text-sm absolute z-10 mb-1 px-2 py-1 bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full rounded-lg w-max">
               {capitalize(data?.discord_status)} on{" "}
               {data?.active_on_discord_mobile ? "Mobile" : "Desktop"}
             </div>

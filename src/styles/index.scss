@@ -8,7 +8,11 @@
 @layer base {
   html,
   body {
-    @apply bg-gradient-to-r from-black via-gray-800 to-gray-900;
+    @apply transition-colors duration-500 ease-in-out bg-lightBackground text-lightText;
+  }
+
+  body.dark {
+    @apply bg-gradient-to-r from-[#000000] via-[#2d2d2d] to-[#1a1a1a] text-darkText;
   }
 
   html {
