@@ -110,13 +110,34 @@ export default function Projects() {
           onClick={closeModal}
         >
           <div
-            className="relative"
+            className="relative bg-slate-900 rounded-lg"
             onClick={(e) => e.stopPropagation()}
+            style={{
+              width: "80%",
+              maxWidth: "800px",
+              height: "100%",
+              overflow: "hidden",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
           >
+            <button
+              onClick={closeModal}
+              className="absolute top-2 right-2 z-10 text-white bg-red-500 rounded-full p-2 hover:bg-red-600 transition"
+              aria-label="Close Modal"
+            >
+              <Icon icon="line-md:close" className="w-6 h-6" />
+            </button>
             <img
               src={modalImage}
               alt="Modal Project Image"
               className="rounded-lg"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                margin: "auto",
+              }}
               onContextMenu={(e) => e.preventDefault()}
             />
           </div>
