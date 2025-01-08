@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Icon } from "@iconify/react";
 import Image from "next/image";
 
@@ -21,6 +21,24 @@ export default function Projects() {
     setModalImage(null);
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    if (isModalOpen) {
+      window.addEventListener('keydown', handleKeyDown);
+    } else {
+      window.removeEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
+
   return (
     <>
       <GenericMeta
@@ -37,22 +55,19 @@ export default function Projects() {
       </h1>
 
       {projects.map(({ name, description, image, url, stack }) => (
-        <div
-					key={name}
-					className="mb-4 flex flex-col rounded-lg bg-slate-900"
-				>
-					<div className="relative">
-					  <div className="overflow-hidden h-24">
-            <Image
-              src={image}
-              alt={name}
-              width={1200}
-              height={800}
-              priority={true}
-              className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-t-lg transition duration-500 group-hover:scale-105 cursor-pointer"
-              onClick={() => toggleModal(image)}
-              onContextMenu={(e) => e.preventDefault()}
-            />
+        <div key={name} className="mb-4 flex flex-col rounded-lg bg-slate-900">
+          <div className="relative">
+            <div className="overflow-hidden h-24">
+              <Image
+                src={image}
+                alt={name}
+                width={1200}
+                height={800}
+                priority={true}
+                className="absolute top-0 left-0 w-full h-full object-cover object-center rounded-t-lg transition duration-500 group-hover:scale-105 cursor-pointer"
+                onClick={() => toggleModal(image)}
+                onContextMenu={(e) => e.preventDefault()}
+              />
             </div>
 
             <div className="flex absolute bottom-2 right-2 gap-2">
@@ -63,11 +78,7 @@ export default function Projects() {
                 >
                   <Image
                     key={name}
-                    src={
-                      icon !== undefined
-                        ? `${skillIconsEndpoint}${icon}`
-                        : src
-                    }
+                    src={icon !== undefined ? `${skillIconsEndpoint}${icon}` : src}
                     width={120}
                     height={120}
                     alt={name}
@@ -110,17 +121,16 @@ export default function Projects() {
           onClick={closeModal}
         >
           <div
-            className="relative bg-slate-900 rounded-lg"
-            onClick={(e) => e.stopPropagation()}
+            className="relative rounded-lg"
             style={{
-              width: "80%",
-              maxWidth: "800px",
+              width: "auto",
               height: "100%",
               overflow: "hidden",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
             }}
+            onClick={(e) => { e.stopPropagation(); closeModal(); }}
           >
             <button
               onClick={closeModal}
@@ -129,6 +139,7 @@ export default function Projects() {
             >
               <Icon icon="line-md:close" className="w-6 h-6" />
             </button>
+
             <img
               src={modalImage}
               alt="Modal Project Image"
@@ -138,6 +149,7 @@ export default function Projects() {
                 maxHeight: "100%",
                 margin: "auto",
               }}
+              onClick={closeModal}
               onContextMenu={(e) => e.preventDefault()}
             />
           </div>
