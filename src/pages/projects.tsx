@@ -55,7 +55,7 @@ export default function Projects() {
       </h1>
 
       {projects.map(({ name, description, image, url, stack }) => (
-        <div key={name} className="mb-4 flex flex-col rounded-lg bg-slate-900">
+        <div key={name} className="mb-4 flex flex-col bg-slate-900">
           <div className="relative">
             <div className="overflow-hidden h-24">
               <Image
@@ -86,7 +86,7 @@ export default function Projects() {
                     quality={100}
                     onContextMenu={(e) => e.preventDefault()}
                   />
-                  <div className="absolute mb-1 px-2 py-1 text-white text-sm bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full rounded-lg w-max">
+                  <div className="absolute mb-1 px-2 py-1 text-white text-sm bg-slate-900 opacity-0 group-hover:opacity-100 transition pointer-events-none bottom-full w-max">
                     {name}
                   </div>
                 </div>
