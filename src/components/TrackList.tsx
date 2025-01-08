@@ -50,7 +50,7 @@ function Track({ track, priority }: TrackProps) {
       rel="noopener noreferrer"
       className="group relative snap-start snap-always rounded-lg before:absolute before:inset-0 before:z-10 before:bg-black before:opacity-0 before:transition before:duration-300 hover:before:opacity-50"
     >
-      <div className="bg-slate-900 rounded-lg overflow-hidden">
+      <div className="bg-slate-900 rounded-lg overflow-hidden aspect-square">
         <Image
           src={track.album.images[0].url}
           alt={track.name}
