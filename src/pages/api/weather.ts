@@ -12,7 +12,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   try {
     // Make a request to OpenWeatherMap API
     const response = await fetch(
-      `https://api.openweathermap.org/data/2.5/weather?lat=-7.795580&lon=110.369492&units=imperial&appid=${process.env.WEATHER_API_KEY}`
+      `http://api.openweathermap.org/data/2.5/forecast?id=2643743&appid=${process.env.WEATHER_API_KEY}`
     );
 
     if (!response.ok) {

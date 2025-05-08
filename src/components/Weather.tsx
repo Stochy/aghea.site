@@ -52,7 +52,8 @@ const Weather: React.FC<{ onlyCity?: boolean }> = ({ onlyCity = false }) => {
   useEffect(() => {
     fetch('/api/weather')
       .then((res) => res.json())
-      .then((res: WeatherResponse) => {
+      .then((res: any) => {
+        console.log('Weather API response:', res); // Debugging log
         setData(res);
         setLoading(false);
       })
@@ -63,10 +64,16 @@ const Weather: React.FC<{ onlyCity?: boolean }> = ({ onlyCity = false }) => {
   }, []);
 
   if (loading) {
-    return null;
+    return <p>Memuat data cuaca...</p>;
   }
 
-  if (!data) {
+  if (
+    !data ||
+    !data.main ||
+    !data.weather ||
+    data.weather.length === 0 ||
+    typeof data.main.temp !== 'number'
+  ) {
     return <p>Data cuaca tidak tersedia.</p>;
   }
 
@@ -74,25 +81,20 @@ const Weather: React.FC<{ onlyCity?: boolean }> = ({ onlyCity = false }) => {
     return (
       <p className="mt-2 flex text-sm gap-2 items-center">
         <Icon icon="mdi:globe" className="w-5 h-5" />
-      {' '}
-      <span>
-        {data.name}
-      </span>
+        <span>{data.name}</span>
       </p>
     );
   }
 
-  const tempCelsius = ((data.main.temp - 32) * 5) / 9;
+  const tempCelsius = data.main.temp; // ✅ Assumes API gives Celsius directly
   const weatherMain = data.weather[0]?.main || '';
   const weatherIcon = icons[weatherMain] || 'mdi:weather-partly-cloudy';
 
   return (
     <p className="mt-2 flex text-sm gap-2 items-center">
       <Icon icon={weatherIcon} className="w-5 h-5" />
-      {' '}
       <span>
-        {tempCelsius.toFixed(0)}°C{' '}
-        {names[weatherMain] ?? weatherMain}
+        {tempCelsius.toFixed(0)}°C {names[weatherMain] ?? weatherMain}
       </span>
     </p>
   );
