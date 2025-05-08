@@ -10,19 +10,19 @@ type WeatherResponse = {
 };
 
 const names: Record<string, string> = {
-  Clear: 'Cerah',
-  Clouds: 'Berawan',
-  Rain: 'Hujan',
-  Drizzle: 'Gerimis',
-  Thunderstorm: 'Petir',
-  Snow: 'Bersalju',
-  Mist: 'Kabut Tipis',
-  Smoke: 'Berasap',
-  Haze: 'Kabut Asap',
-  Dust: 'Debu',
-  Fog: 'Kabut Tebal',
-  Sand: 'Pasir',
-  Ash: 'Abu Vulkanik',
+  Clear: 'Sunny',
+  Clouds: 'Cloudy',
+  Rain: 'Rain',
+  Drizzle: 'Drizzling',
+  Thunderstorm: 'Lightning',
+  Snow: 'Snowing',
+  Mist: 'Light Mist',
+  Smoke: 'Smoky',
+  Haze: 'Smoke Fog',
+  Dust: 'Dust',
+  Fog: 'Thick Fog',
+  Sand: 'Sandy',
+  Ash: 'Ash',
   Squall: 'Angin Kencang',
   Tornado: 'Puting Beliung',
 };
@@ -64,7 +64,7 @@ const Weather: React.FC<{ onlyCity?: boolean }> = ({ onlyCity = false }) => {
   }, []);
 
   if (loading) {
-    return <p>Memuat data cuaca...</p>;
+    return <p>Loading weather data...</p>;
   }
 
   if (
@@ -74,7 +74,7 @@ const Weather: React.FC<{ onlyCity?: boolean }> = ({ onlyCity = false }) => {
     data.weather.length === 0 ||
     typeof data.main.temp !== 'number'
   ) {
-    return <p>Data cuaca tidak tersedia.</p>;
+    return <p>Weather data is not available.</p>;
   }
 
   if (onlyCity) {

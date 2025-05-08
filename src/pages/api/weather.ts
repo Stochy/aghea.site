@@ -1,35 +1,23 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-type WeatherResponse = {
-  main: {
-    temp: number;
-  };
-  weather: Array<{ description: string }>;
-  name: string;
-};
+export default async function handler(req, res) {
+  const apiKey = process.env.WEATHER_API_KEY;
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=Brighton,GB&appid=${apiKey}&units=metric`;
+
   try {
-    // Make a request to OpenWeatherMap API
-    const response = await fetch(
-      `http://api.openweathermap.org/data/2.5/forecast?id=2643743&appid=${process.env.WEATHER_API_KEY}`
-    );
+    const response = await fetch(url);
+    const data = await response.json();
 
-    if (!response.ok) {
-      throw new Error('Failed to fetch weather data');
+    if (response.status !== 200) {
+      console.error("OpenWeatherMap error response:", data);
+      return res.status(response.status).json({ error: "Weather API returned status " + response.status });
     }
 
-    const data: WeatherResponse = await response.json();
-
-    // Set Cache-Control header for caching the API response
-    res.setHeader('Cache-Control', 'public, max-age=0, s-maxage=300');
-    
-    // Return the weather data as JSON
     res.status(200).json(data);
   } catch (error) {
-    console.error('Error fetching weather data:', error);
-    
-    // Return an error response
-    res.status(500).json({ error: 'Failed to fetch weather data' });
+    console.error("Error fetching weather data:", error);
+    res.status(500).json({ error: "Failed to fetch weather data" });
   }
 }
+

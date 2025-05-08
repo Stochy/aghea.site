@@ -34,17 +34,16 @@ export default function Home({
   return (
     <>
       <GenericMeta
-        title="Agcrismanto Budhi Praswastyka"
-        description="A programmer who is aware of the tiny moments in a person's life that reveal greater truths."
+        title="Stan's Portfolio"
+        description=""
       />
 
       <h1 className="heading mb-2">
-        Aghea&nbsp;<Icon icon="material-symbols:verified" color="#1dcaff" width="40" />
+        Stan&nbsp;<Icon icon="material-symbols:verified" color="#1dcaff" width="40" />
       </h1>
 
       <p className="mb-4">
-        <span className="opacity-80">Nama saya adalah Agcrismanto Budhi Praswastyka, dikenal sebagai Cris ataupun Aghea, berasal dari Yogyakarta, Indonesia. Saya adalah seorang{" "}
-          Pegiat Hukum, dan Web Developer.{" "}
+        <span className="opacity-80">Roblox Developer & Scripter.{" "}
         </span>
       </p>
 

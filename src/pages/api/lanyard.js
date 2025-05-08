@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-  const USER_ID = "982268021143896064";
+  const USER_ID = "1038842270029459538";
   const response = await fetch(`https://api.lanyard.rest/v1/users/${USER_ID}`);
   
   if (!response.ok) {

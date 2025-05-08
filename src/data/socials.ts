@@ -12,30 +12,20 @@ export const socials: SocialInfo[] = [
         icon: "simple-icons:github",
         url: "/github"
     },
-    {
-        name: "LinkedIn",
-        icon: "simple-icons:linkedin",
-        url: "/linkedin"
+   {
+       name: "Twitter",
+       icon: "simple-icons:twitter",
+       url: "/twitter"
     },
-//    {
-//        name: "Twitter",
-//        icon: "simple-icons:twitter",
-//        url: "/twitter"
-//    },
-//    {
+//  {
 //        name: "Bluesky App",
 //        icon: "simple-icons:bluesky",
 //        url: "/bsky"
 //    },
     {
-        name: "Chat Me",
-        icon: "simple-icons:signal",
-        url: "/contact"
-    },
-    {
-        name: "Email",
-        icon: "simple-icons:protonmail",
-        url: "/email"
+        name: "Roblox",
+        icon: "simple-icons:roblox",
+        url: "/roblox"
     }
 ];
 

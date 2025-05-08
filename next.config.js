@@ -55,8 +55,8 @@ const config = {
   async redirects() {
     return [
       {
-        source: '/blog',
-        destination: 'https://bit.ly/AgheaBlog',
+        source: '/roblox',
+        destination: 'https://www.roblox.com/users/3563143453/profile',
         permanent: true,
       },
       {
@@ -86,12 +86,12 @@ const config = {
       },
       {
         source: '/twitter',
-        destination: 'https://bit.ly/AgheaTwitter',
+        destination: 'https://x.com/@DevMate_GCORP',
         permanent: true,
       },
       {
         source: '/github',
-        destination: 'https://bit.ly/3RwQ0yc',
+        destination: 'https://github.com/@Stochy',
         permanent: true,
       },
       {
@@ -101,7 +101,7 @@ const config = {
       },
       {
         source: '/spotify',
-        destination: 'https://spoti.fi/3PkwCnr',
+        destination: 'https://open.spotify.com/user/0o03ugqme912awle667dmgiic?si=296a470a814341a7',
         permanent: true,
       },
       {

@@ -23,7 +23,7 @@ export const projects: ProjectInfo[] = [
 		name: "DevMate",
 		description:
 			"DevMate in a online product store for sellers.",
-		image: "/images/projects/O5ulOZZ3eX.png",
+		image: "/images/projects/devmate.png",
 		url: "https://devmate.co.uk",
 		stack: [
 			{
@@ -35,34 +35,23 @@ export const projects: ProjectInfo[] = [
 				icon: "ts"
 			},
 			{
-				name: "CSS",
-				icon: "css"
+				name: "Roblox",
+				icon: "roblox"
 			}
 		]
 	},
 	{
-		name: "ADPortfolio",
+		name: "Active Entertainment",
 		description:
-			"Templat Resume/Portfolio menggunakan NextJS. Terhubung ke react-use-lanyard dan Spotify APi.",
-		image: "/images/projects/ADPortfolio.png",
-		url: "https://github.com/agcrisbp/ADPortfolio",
+			"Roblox Game Studio.",
+		image: "/images/projects/active.png",
+		url: "https://active-entertainment.group",
 		stack: [
 			{
-				name: "NextJS",
-				icon: "nextjs"
+				name: "lua",
+				icon: "lua"
 			},
-			{
-				name: "TypeScript",
-				icon: "ts"
-			},
-			{
-				name: "TailwindCSS",
-				icon: "tailwindcss"
-			},
-			{
-				name: "WindiCSS",
-				icon: "windicss"
-			},
+			
 		]
 	},
 	

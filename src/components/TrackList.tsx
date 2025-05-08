@@ -123,16 +123,13 @@ function Playlist({ playlist }: PlaylistProps) {
       className="group relative snap-start snap-always rounded-lg before:absolute before:inset-0 before:z-10 before:bg-black before:opacity-0 before:transition before:duration-300 hover:before:opacity-50"
     >
       <div className="bg-slate-900 rounded-lg overflow-hidden aspect-square">
-        <Image
-          src={playlist.images[0]?.url}
-          alt={playlist.name}
-          width={512}
-          height={512}
-          priority={true}
-          className="rounded-lg transition duration-300 group-hover:scale-[1.02]"
-          onContextMenu={(e) => e.preventDefault()}
-        />
-      </div>
+  <Image
+    src={playlist.images?.[0]?.url || '/default-image.jpg'} // Fallback to a default image if no images are available
+    alt={playlist.name}
+    width={512}
+    height={512}
+  />
+</div>
       <div className="z-20 absolute inset-2 md:inset-4 flex flex-col justify-end transition duration-300 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100">
         <p className="text-white font-bold text-xl md:text-2xl overflow-ellipsis leading-none md:leading-none mb-1">
           {playlist.name}

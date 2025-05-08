@@ -42,12 +42,12 @@ export default function Projects() {
   return (
     <>
       <GenericMeta
-        title="Projek"
-        description="Beberapa proyek yang saya kerjakan."
+        title="Projects"
+        description="Some projects I've worked on."
       />
 
       <h1 className="heading mb-8">
-        Projek{" "}
+        Projects{" "}
         <Icon
           icon="solar:programming-outline"
           className="ml-4 h-12 w-12 text-blue-400"

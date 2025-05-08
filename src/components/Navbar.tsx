@@ -12,25 +12,19 @@ interface PageData {
 const pages: PageData[] = [
   {
     href: "/",
-    title: "Beranda",
+    title: "Home",
     icon: "solar:home-outline",
     color: "text-orange-400",
   },
   {
     href: "/projects",
-    title: "Projek",
+    title: "Projects",
     icon: "solar:programming-outline",
     color: "text-blue-400",
   },
   {
-    href: "/blog",
-    title: "Tulisan",
-    icon: "solar:book-outline",
-    color: "text-purple-400",
-  },
-  {
     href: "/music",
-    title: "Musik",
+    title: "Music",
     icon: "solar:airbuds-broken",
     color: "text-violet-400",
   },
